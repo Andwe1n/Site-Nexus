@@ -1,0 +1,130 @@
+{
+    "site": {
+        "titlu": "Clubul de Științe Nexus",
+        "an": 2025,
+        "sectiuni": [
+            {
+                "id": "acasa",
+                "titlu": "Acasă",
+                "descriere": "Explorăm, experimentăm și inovăm împreună."
+            },
+            {
+                "id": "despre",
+                "titlu": "Despre noi",
+                "descriere": "Echipa s-a format în anul 2025 din inițiativa unor elevi pasionați de știință..."
+            },
+            {
+                "id": "materii",
+                "titlu": "Materii",
+                "lista": [
+                    "Microscopie",
+                    "Chimie",
+                    "Disecții",
+                    "Fizică"
+                ]
+            },
+            {
+                "id": "echipa",
+                "titlu": "Echipa noastră"
+            },
+            {
+                "id": "contact",
+                "titlu": "Contact",
+                "email": "nexusscience4@gmail.com",
+                "instagram": "nexus.cnng"
+            }
+        ]
+    },
+    "echipa": {
+        "conducere": [
+            {
+                "nume": "Marina Andrei Robert",
+                "rol": "Președinte",
+                "poza": "POZE/IMG-20250812-WA0041.jpg",
+                "descriere": "Coordonează echipa și activitățile generale."
+            },
+            {
+                "nume": "Dumitrescu Victor",
+                "rol": "Coordonator Titular",
+                "poza": "poze/dumitrescu.jpg",
+                "descriere": "Coordonator titular al clubului."
+            }
+        ],
+        "coordonatori": [
+            {
+                "nume": "Ene Stelică",
+                "rol": "Prof. Biologie",
+                "poza": "poze/ene.jpg"
+            },
+            {
+                "nume": "Chițu Cătălin",
+                "rol": "Prof. Dr. Fizică",
+                "poza": "poze/chitu.jpg"
+            },
+            {
+                "nume": "Dumitran Adrian",
+                "rol": "Prof. Fizică",
+                "poza": "poze/dumitran.jpg"
+            },
+            {
+                "nume": "Iordache Camelia",
+                "rol": "Prof. Chimie",
+                "poza": "poze/iordache.jpg"
+            },
+            {
+                "nume": "Năstăsescu Daniela",
+                "rol": "Prof. Chimie",
+                "poza": "poze/nastasescu.jpg"
+            },
+            {
+                "nume": "Alecu Mihai",
+                "rol": "Prof. Geografie",
+                "poza": "poze/alecu.jpg"
+            }
+        ],
+        "mentori": [
+            {
+                "nume": "Bunescu Andreea Elena",
+                "rol": "Mentor Biologie",
+                "poza": "poze/bunescu.jpg"
+            },
+            {
+                "nume": "Șerbu Paula Adriana",
+                "rol": "Mentor Biologie",
+                "poza": "poze/serbu.jpg"
+            },
+            {
+                "nume": "Pleșa Melek Maria",
+                "rol": "Mentor Chimie",
+                "poza": "poze/plesa.jpg"
+            },
+            {
+                "nume": "Precup Sidonia Maria",
+                "rol": "Mentor Chimie",
+                "poza": "poze/precup.jpg"
+            },
+            {
+                "nume": "Tiseanu Dumitru",
+                "rol": "Mentor Fizică",
+                "poza": "poze/tiseanu.jpg"
+            }
+        ],
+        "marketing_it": [
+            {
+                "nume": "Bîlga Maria Daria",
+                "rol": "Graphic Designer",
+                "poza": "poze/bilga.jpg"
+            },
+            {
+                "nume": "Oprescu Sergiu Petre",
+                "rol": "Public Relations",
+                "poza": "poze/oprescu.jpg"
+            },
+            {
+                "nume": "Cristache Mihnea Andrei",
+                "rol": "Web Designer",
+                "poza": "POZE/IMG_20251011_152812_edit_503280748485705.jpg"
+            }
+        ]
+    }
+}
