@@ -93,6 +93,120 @@ body.light .materie-card {
   color: #bd93f9;
 } /* Fizică */
 
+/* Materie modal */
+.materie-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 4000;
+}
+
+.materie-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.materie-modal__content {
+  position: relative;
+  max-width: 640px;
+  width: 90%;
+  background: linear-gradient(135deg, rgba(22, 12, 40, 0.95), rgba(37, 20, 68, 0.9));
+  border: 1px solid rgba(189, 147, 249, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45), 0 0 30px rgba(192, 132, 252, 0.25);
+  color: #f8f8ff;
+  animation: riseIn 0.25s ease;
+}
+
+body.light .materie-modal__content {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 239, 255, 0.92));
+  color: #1a1a2f;
+}
+
+.materie-modal__header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.materie-modal__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  color: #0a0618;
+  background: linear-gradient(135deg, #c084fc, #8be9fd);
+  box-shadow: 0 10px 30px rgba(192, 132, 252, 0.35);
+}
+
+body.light .materie-modal__icon {
+  color: #201238;
+}
+
+.materie-modal__content h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.materie-modal__content p {
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.materie-modal__list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.materie-modal__list li {
+  position: relative;
+}
+
+.materie-modal__list li::marker {
+  color: var(--primary);
+}
+
+.materie-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.materie-modal__close:hover {
+  transform: scale(1.05);
+  color: var(--primary);
+}
+
+@keyframes riseIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .team,
 .leadership {
   display: flex;

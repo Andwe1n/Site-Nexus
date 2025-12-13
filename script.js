@@ -147,11 +147,99 @@ if (loginForm) {
 /* ==========================
    MATERII (demo)
    ========================== */
+const materieModal = document.getElementById("materie-modal");
+const materieClose = document.getElementById("materie-close");
+const materieTitle = document.getElementById("materie-title");
+const materieSubtitle = document.getElementById("materie-subtitle");
+const materieDescription = document.getElementById("materie-description");
+const materieTopics = document.getElementById("materie-topics");
+const materieIcon = document.getElementById("materie-icon");
+
+const materiiContent = {
+  biologie: {
+    title: "Microscopie",
+    subtitle: "Laborator de biologie și explorare celulară",
+    description:
+      "Înveți să pregătești lame corecte, să identifici celule și țesuturi și să surprinzi imagini clare cu microscopul optic.",
+    topics: [
+      "Tehnici de colorare și fixare a probelor",
+      "Recunoașterea structurilor celulare principale",
+      "Capturarea imaginilor prin adaptor de telefon",
+    ],
+    icon: "fas fa-microscope",
+  },
+  chimie: {
+    title: "Chimie",
+    subtitle: "Experimente sigure și reacții spectaculoase",
+    description:
+      "Descoperă proprietățile substanțelor, observă reacții redox și exersează titrări cu indicatori vizuali pentru rezultate precise.",
+    topics: [
+      "Setarea corectă a sticlei de laborator",
+      "Neutralizări acido-bazice cu indicatori",
+      "Reacții de precipitare și schimb de culoare",
+    ],
+    icon: "fas fa-vials",
+  },
+  histologie: {
+    title: "Disecții",
+    subtitle: "Anatomie practică și observație directă",
+    description:
+      "Într-un cadru ghidat, analizăm structuri anatomice reale, înțelegem relațiile dintre organe și documentăm etapele disecției.",
+    topics: [
+      "Reguli de siguranță și pregătirea instrumentarului",
+      "Identificarea organelor și a vaselor principale",
+      "Realizarea de schițe și note de laborator",
+    ],
+    icon: "fas fa-syringe",
+  },
+  fizica: {
+    title: "Fizică",
+    subtitle: "Legile naturii puse în mișcare",
+    description:
+      "Punem în scenă experimente despre electricitate, magnetism și optică, folosind senzori și simulări pentru a verifica formulele studiate.",
+    topics: [
+      "Construirea unor montaje simple de curent continuu",
+      "Măsurarea intensității și tensiunii cu multimetrul",
+      "Experimente cu lentile, oglinzi și lasere",
+    ],
+    icon: "fas fa-atom",
+  },
+};
+
 function openMaterie(materie) {
-  alert(
-    `Ai selectat materia: ${materie.toUpperCase()}!\nAceastă funcționalitate va deschide o pagină dedicată în versiunea completă.`
-  );
+  const content = materiiContent[materie];
+  if (!content || !materieModal) return;
+
+  if (materieTitle) materieTitle.textContent = content.title;
+  if (materieSubtitle) materieSubtitle.textContent = content.subtitle;
+  if (materieDescription) materieDescription.textContent = content.description;
+  if (materieIcon)
+    materieIcon.className = `materie-modal__icon ${content.icon}`;
+
+  if (materieTopics) {
+    materieTopics.innerHTML = "";
+    content.topics.forEach((topic) => {
+      const li = document.createElement("li");
+      li.textContent = topic;
+      materieTopics.appendChild(li);
+    });
+  }
+
+  materieModal.classList.add("active");
+  document.body.classList.add("modal-open");
 }
+
+function closeMaterieModal() {
+  if (!materieModal) return;
+  materieModal.classList.remove("active");
+  document.body.classList.remove("modal-open");
+}
+
+if (materieClose) materieClose.addEventListener("click", closeMaterieModal);
+if (materieModal)
+  materieModal.addEventListener("click", (e) => {
+    if (e.target === materieModal) closeMaterieModal();
+  });
 
 /* ==========================
    COOKIE POPUP (apare la 3s la fiecare refresh)
@@ -178,6 +266,7 @@ if (declineBtn)
    ========================== */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    closeMaterieModal();
     if (popup) popup.style.display = "none";
     if (cookiePopup) cookiePopup.style.display = "none";
     if (loginContainer) loginContainer.style.display = "none";

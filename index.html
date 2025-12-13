@@ -756,15 +756,39 @@
       <p>© 2025 Clubul de Științe Nexus | Creat cu pasiune pentru știință 🧪</p>
     </footer>
 
+    <!-- Fereastră pentru detalii materii -->
+    <div id="materie-modal" class="materie-modal" aria-hidden="true">
+      <div class="materie-modal__content" role="dialog" aria-modal="true">
+        <button
+          id="materie-close"
+          class="materie-modal__close"
+          aria-label="Închide fereastra despre materie"
+        >
+          &times;
+        </button>
+        <div class="materie-modal__header">
+          <div id="materie-icon" class="materie-modal__icon fas fa-microscope"></div>
+          <div>
+            <h3 id="materie-title">Microscopie</h3>
+            <p id="materie-subtitle">Tehnica observației la microscop</p>
+          </div>
+        </div>
+        <p id="materie-description">
+          Descoperă detaliile laboratorului nostru — fiecare materie are propriile
+          exerciții practice și resurse interactive.
+        </p>
+        <ul id="materie-topics" class="materie-modal__list">
+          <li>Prepararea lamelor pentru observații clare</li>
+          <li>Recunoașterea structurilor celulare principale</li>
+          <li>Fotografierea probelor cu telefonul</li>
+        </ul>
+      </div>
+    </div>
+
     <button id="scrollTopBtn" title="Înapoi sus">↑</button>
 
     <script src="script.js"></script>
-</a>
     <!-- main app module (ES modules) -->
     <script type="module" src="js/main.js"></script>
-</body>
-</html>
- <script src="particles.js"></script>
-
   </body>
 </html>
