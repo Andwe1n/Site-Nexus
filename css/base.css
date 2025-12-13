@@ -23,6 +23,10 @@ body {
   transition: background 0.4s, color 0.4s;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
