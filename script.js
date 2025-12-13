@@ -210,15 +210,50 @@ window.addEventListener('scroll', () => {
   document.getElementById('progress-bar').style.width = scrolled + '%';
 });
 
-// Particule animate simple
+// Particule animate simple (erou)
+function styleParticle(particle, options = {}) {
+  const {
+    sizeRange = [3, 7],
+    durationRange = [14, 22],
+    delayRange = [0, 6],
+    opacityRange = [0.35, 0.75],
+    driftRange = 180,
+    startBottom = '-12vh',
+  } = options;
+
+  const size = Math.random() * (sizeRange[1] - sizeRange[0]) + sizeRange[0];
+  const duration = Math.random() * (durationRange[1] - durationRange[0]) + durationRange[0];
+  const delay = Math.random() * (delayRange[1] - delayRange[0]) + delayRange[0];
+  const opacity = Math.random() * (opacityRange[1] - opacityRange[0]) + opacityRange[0];
+  const drift = (Math.random() - 0.5) * driftRange;
+  const hue = 250 + Math.random() * 40;
+
+  particle.style.setProperty('--size', `${size}px`);
+  particle.style.setProperty('--duration', `${duration}s`);
+  particle.style.setProperty('--delay', `${delay}s`);
+  particle.style.setProperty('--opacity', opacity.toFixed(2));
+  particle.style.setProperty('--drift', `${drift.toFixed(2)}px`);
+  particle.style.setProperty('--hue', hue.toFixed(0));
+  particle.style.left = Math.random() * 100 + '%';
+  particle.style.bottom = startBottom;
+
+  return { duration, delay };
+}
+
 function createParticles() {
   const hero = document.querySelector('.hero');
-  for(let i = 0; i < 30; i++) {
+  if (!hero) return;
+
+  for(let i = 0; i < 18; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 5 + 's';
-    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    styleParticle(particle, {
+      sizeRange: [3, 6.5],
+      durationRange: [10, 18],
+      delayRange: [0, 4.5],
+      driftRange: 140,
+      startBottom: '-6vh',
+    });
     hero.appendChild(particle);
   }
 }
@@ -287,61 +322,39 @@ function createFullSiteParticles() {
   
   // Adaugă containerul la începutul body-ului
   document.body.insertBefore(particleContainer, document.body.firstChild);
-  
+
   // Număr de particule (poți ajusta)
-  const particleCount = 50;
-  
+  const particleCount = 36;
+
   // Creează particulele
   for(let i = 0; i < particleCount; i++) {
     createParticle(particleContainer);
   }
-  
+
   // Adaugă particule noi continuu pentru efect perpetuu
   setInterval(() => {
-    if (document.querySelectorAll('.particle').length < particleCount) {
+    if (particleContainer.querySelectorAll('.particle').length < particleCount) {
       createParticle(particleContainer);
     }
-  }, 3000);
+  }, 3200);
 }
 
 // Funcție pentru o singură particulă
 function createParticle(container) {
   const particle = document.createElement('div');
   particle.className = 'particle';
-  
-  // Poziție aleatoare pe orizontală
-  const startX = Math.random() * 100;
-  
-  // Mărime aleatoare
-  const size = Math.random() * 4 + 2; // între 2px și 6px
-  
-  // Durată aleatoare de animație
-  const duration = Math.random() * 10 + 15; // între 15s și 25s
-  
-  // Delay aleatoriu
-  const delay = Math.random() * 5;
-  
-  // Opacitate aleatoare
-  const opacity = Math.random() * 0.5 + 0.3; // între 0.3 și 0.8
-  
-  // Mișcare laterală aleatoare
-  const drift = (Math.random() - 0.5) * 200; // -100px la +100px
-  
-  particle.style.cssText = `
-    position: absolute;
-    left: ${startX}%;
-    bottom: -10px;
-    width: ${size}px;
-    height: ${size}px;
-    background: radial-gradient(circle, rgba(192, 132, 252, ${opacity}), rgba(139, 92, 246, ${opacity * 0.5}));
-    border-radius: 50%;
-    animation: floatUp ${duration}s ease-in-out ${delay}s infinite;
-    box-shadow: 0 0 ${size * 2}px rgba(192, 132, 252, 0.5);
-    --drift: ${drift}px;
-  `;
-  
+
+  const { duration, delay } = styleParticle(particle, {
+    sizeRange: [3.5, 7.5],
+    durationRange: [15, 24],
+    delayRange: [0, 6],
+    opacityRange: [0.32, 0.72],
+    driftRange: 220,
+    startBottom: '-14vh',
+  });
+
   container.appendChild(particle);
-  
+
   // Șterge particula după ce termină animația pentru a nu supraîncărca DOM-ul
   setTimeout(() => {
     particle.remove();
@@ -366,40 +379,3 @@ sections.forEach(section => {
     }
   });
 });
-
-// CSS pentru animații - ADAUGĂ ASTA ÎN style.css
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes floatUp {
-    0% {
-      transform: translateY(0) translateX(0) scale(1);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(-50vh) translateX(calc(var(--drift) * 0.5)) scale(1.2);
-      opacity: 0.8;
-    }
-    90% {
-      opacity: 0.5;
-    }
-    100% {
-      transform: translateY(-100vh) translateX(var(--drift)) scale(0.5);
-      opacity: 0;
-    }
-  }
-  
-  /* Efect de blur ușor pentru particule (optional) */
-  .particle {
-    filter: blur(0.5px);
-  }
-  
-  /* Particule mai mari la hover (optional) */
-  .content:hover ~ #particle-container .particle,
-  .hero:hover ~ #particle-container .particle {
-    animation-duration: 10s !important;
-  }
-`;
-document.head.appendChild(style);

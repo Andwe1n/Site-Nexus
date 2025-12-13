@@ -345,33 +345,6 @@ body.light .leadership .membru {
   }
 }
 
-/* Particles */
-.particle { 
-  position:absolute; 
-  width:4px; 
-  height:4px; 
-  background: rgba(192,132,252,0.6); 
-  border-radius:50%; 
-  animation: float 5s infinite ease-in-out; 
-  filter: blur(0.5px); 
-}
-@keyframes float { 
-  0%,100% { 
-    transform: translateY(0) translateX(0); 
-    opacity:0; 
-  } 
-  10% { 
-    opacity:1; 
-  } 
-  90% { 
-    opacity:1; 
-  } 
-  100% { 
-    transform: translateY(-100vh) translateX(50px); 
-    opacity:0; 
-  } 
-}
-
 /* Cookie popup */
 .cookie-popup {
   position: fixed;
@@ -470,29 +443,43 @@ body.light .leadership .membru {
 
 @keyframes floatUp {
   0% {
-    transform: translateY(0) translateX(0) scale(1);
+    transform: translate3d(0, 15vh, 0) scale(0.4);
     opacity: 0;
   }
-  10% {
-    opacity: 1;
+  12% {
+    opacity: var(--opacity, 0.55);
   }
-  50% {
-    transform: translateY(-50vh) translateX(calc(var(--drift) * 0.5)) scale(1.2);
-    opacity: 0.8;
+  45% {
+    transform: translate3d(calc(var(--drift, 0px) * 0.35), -20vh, 0) scale(1);
+    opacity: var(--opacity, 0.55);
   }
-  90% {
-    opacity: 0.5;
+  70% {
+    transform: translate3d(calc(var(--drift, 0px) * 0.7), -60vh, 0) scale(0.9);
+    opacity: calc(var(--opacity, 0.55) * 0.7);
   }
   100% {
-    transform: translateY(-100vh) translateX(var(--drift)) scale(0.5);
+    transform: translate3d(var(--drift, 0px), -110vh, 0) scale(0.5);
     opacity: 0;
   }
 }
 
 .particle {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(0.5px);
+  inset: auto;
+  width: var(--size, 6px);
+  height: var(--size, 6px);
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 35% 35%,
+    hsla(var(--hue, 265), 95%, 75%, var(--opacity, 0.6)),
+    hsla(var(--hue, 265), 85%, 60%, calc(var(--opacity, 0.6) * 0.65)) 55%,
+    transparent 70%
+  );
+  opacity: var(--opacity, 0.6);
+  animation: floatUp var(--duration, 18s) ease-in-out var(--delay, 0s) infinite;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 calc(var(--size, 6px) * 2) hsla(var(--hue, 265), 95%, 70%, 0.55));
+  will-change: transform, opacity;
 }
 
 
