@@ -10,14 +10,16 @@ function scrollToSection(id) {
 
 /* Scroll to top button */
 const scrollBtn = document.getElementById("scrollTopBtn");
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) scrollBtn.style.display = "block";
-  else scrollBtn.style.display = "none";
-});
-if (scrollBtn)
+if (scrollBtn) {
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) scrollBtn.style.display = "block";
+    else scrollBtn.style.display = "none";
+  });
+
   scrollBtn.addEventListener("click", () =>
     window.scrollTo({ top: 0, behavior: "smooth" })
   );
+}
 
 /* ==========================
     LOGO BACKGROUND PARALLAX
@@ -148,9 +150,7 @@ if (loginForm) {
    MATERII (demo)
    ========================== */
 function openMaterie(materie) {
-  alert(
-    `Ai selectat materia: ${materie.toUpperCase()}!\nAceastă funcționalitate va deschide o pagină dedicată în versiunea completă.`
-  );
+  window.location.href = `materii/${materie}.html`;
 }
 
 /* ==========================
@@ -207,7 +207,8 @@ window.addEventListener('scroll', () => {
   const winScroll = document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   const scrolled = (winScroll / height) * 100;
-  document.getElementById('progress-bar').style.width = scrolled + '%';
+  const progress = document.getElementById('progress-bar');
+  if (progress) progress.style.width = scrolled + '%';
 });
 
 // Particule animate simple
