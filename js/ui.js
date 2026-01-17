@@ -114,12 +114,7 @@ function initMobileMenu() {
       document.body.style.overflow = '';
     }
   }
-
-  // Detect iOS
-  function isIOS() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  }
-
+  
   // Fix viewport height on mobile (especially iPhone)
   function setVH() {
     const vh = window.innerHeight * 0.01;
