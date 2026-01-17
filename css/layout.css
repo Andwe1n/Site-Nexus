@@ -149,62 +149,7 @@ header.hidden {
   pointer-events: none;
 }
 
-
-
-  header { 
-    flex-direction: column; padding:1rem; 
-  } 
-  nav ul { 
-    flex-wrap: wrap; 
-    justify-content:center; 
-    margin-top:10px; 
-  } 
-  .logo { 
-    height:70px; 
-  } 
-  .hero h2 { 
-    font-size:2rem; 
-  } 
-  .content { 
-    width:90%; 
-    padding:1.5rem; 
-  }
-  .materii {
-    grid-template-columns: 1fr;
-  }
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
-/* Tablete */
-
-  .logo {
-    height: 75px;
-  }
-  nav ul {
-    gap: 1rem;
-  }
-
-
-/* Mobile landscape */
-
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    padding: 100px 0;
-  }
-
-
-/* Mobile mic */
-
-  .hero h2 {
-    font-size: 1.5rem;
-  }
-  .logo {
-    height: 60px;
-  }
-  .content {
-    padding: 1rem;
-  }
-

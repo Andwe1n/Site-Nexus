@@ -3,10 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=corner" />
+  
   <title>Clubul de Științe Nexus</title>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- split CSS for easier maintenance -->
+
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -24,14 +26,20 @@
       <div class="loader-bar"></div>
     </div>
   </div>
+
   <div id="progress-bar"></div>
  
-    <body>
+  <header>
+    <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
+
   <!-- ADAUGĂ overlay pentru menu -->
   <div class="menu-overlay" id="menuOverlay"></div>
 
-  <header>
-    <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
+    <!-- Theme switch -->
+    <label class="switch">
+      <input type="checkbox" class="input__check" />
+      <span class="slider"></span>
+    </label>
 
     <!-- ADAUGĂ butonul hamburger -->
     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -40,27 +48,7 @@
       <span></span>
     </button>
 
-    <!-- Theme switch -->
-    <label class="switch">
-      <input type="checkbox" class="input__check" />
-      <span class="slider"></span>
-    </label>
-
-    <!-- Adaugă ID la nav -->
     <nav id="navMenu">
-      <ul>
-        <!-- linkurile tale -->
-      </ul>
-    </nav>
-  </header>
-  
-  <!-- restul conținutului -->
-</body>
-
-  <header>
-    <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
-
-    <nav>
       <ul>
         <li><a href="#acasa">Acasă</a></li>
         <li><a href="#despre">Despre noi</a></li>
@@ -70,12 +58,6 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-
-    <!-- From Uiverse.io by EddyBel -->
-    <label class="switch">
-      <input type="checkbox" class="input__check" />
-      <span class="slider"></span>
-    </label>
   </header>
 
   <section id="acasa" class="hero">
@@ -557,7 +539,8 @@
       </div>
     </div>
 
-    <div class="contact-card">
+    <section id="contact" class="content reveal">
+    <div class="contact">
       <div class="contact-badge">Suntem aici pentru tine</div>
       <div class="contact-grid">
         <div class="contact-item">
@@ -597,6 +580,8 @@
     </div>
     <div class="spacer"></div>
   </section>
+
+
   <section id="parteneri" class="content reveal">
   <h2>Partenerii noștri</h2>
   <p>
