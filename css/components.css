@@ -561,3 +561,252 @@ body.light .leadership .membru {
     66%{ transform: translateY(0) translate(20px) rotate(-25deg); } 
     100%{ transform: translateY(0) translate(0px) rotate(-5deg); } 
 }
+/* Contact section */
+.contact-intro {
+  max-width: 780px;
+  margin: 0 auto 1.5rem;
+  color: #e8d7ff;
+  text-align: center;
+}
+
+.contact-card {
+  position: relative;
+  overflow: hidden;
+  margin: 2.5rem auto 0;
+  padding: 2.5rem;
+  max-width: 900px;
+  background: radial-gradient(circle at 15% 20%, rgba(192, 132, 252, 0.25), transparent 35%),
+    radial-gradient(circle at 85% 10%, rgba(139, 92, 246, 0.2), transparent 35%),
+    linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(39, 10, 64, 0.85));
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 0 30px rgba(192, 132, 252, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.contact-card::before,
+.contact-card::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.2), transparent 65%);
+  filter: blur(8px);
+  z-index: 0;
+}
+
+.contact-card::before {
+  top: -60px;
+  right: -40px;
+}
+
+.contact-card::after {
+  bottom: -70px;
+  left: -40px;
+}
+
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(192, 132, 252, 0.15);
+  color: #f2e7ff;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 0.8rem;
+  box-shadow: 0 8px 25px rgba(192, 132, 252, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 12px 30px rgba(192, 132, 252, 0.35);
+}
+
+.contact-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, rgba(192, 132, 252, 0.18), rgba(139, 92, 246, 0.22));
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: 14px;
+  color: #f8f4ff;
+  font-size: 1.4rem;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+.contact-item h3 {
+  margin: 0 0 0.35rem;
+  color: #f3e8ff;
+}
+
+.contact-item p {
+  margin: 0 0 0.75rem;
+  color: #d7c7f6;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(90deg, rgba(192, 132, 252, 0.9), rgba(139, 92, 246, 0.95));
+  color: #0c0b16;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(139, 92, 246, 0.55);
+}
+
+.contact-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ede4ff;
+  font-size: 0.9rem;
+}
+
+body.light .contact-card {
+  background: radial-gradient(circle at 20% 15%, rgba(139, 92, 246, 0.15), transparent 35%),
+    radial-gradient(circle at 80% 15%, rgba(192, 132, 252, 0.15), transparent 35%),
+    linear-gradient(135deg, rgba(250, 250, 255, 0.95), rgba(235, 232, 255, 0.9));
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.18);
+}
+
+body.light .contact-intro,
+body.light .contact-item p,
+body.light .contact-pill {
+  color: #2c1844;
+}
+
+body.light .contact-item {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.light .contact-item h3 {
+  color: #1a0f2d;
+}
+
+body.light .contact-icon {
+  color: #1a0f2d;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* === PARTENERI SECTION === */
+.parteneri-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.partener-link {
+  display: inline-block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  max-width: 300px; /* Limitează lățimea maximă */
+}
+
+.partener-link:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.6));
+}
+
+.parteneri-logos img {
+  width: 100%;
+  max-width: 250px; /* Dimensiune maximă a logo-ului */
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border: 2px solid rgba(192, 132, 252, 0.3);
+  transition: all 0.3s ease;
+}
+
+.parteneri-logos img:hover {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(192, 132, 252, 0.4);
+}
+
+/* Light mode adjustments */
+body.light .parteneri-logos img {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(147, 51, 234, 0.3);
+}
+
+body.light .parteneri-logos img:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: var(--primary);
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
+}
+
+/* Responsive pentru parteneri */
+@media (max-width: 768px) {
+  .parteneri-logos img {
+    max-width: 200px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .parteneri-logos img {
+    max-width: 150px;
+    padding: 10px;
+  }
+  
+  .parteneri-logos {
+    gap: 20px;
+  }
+}
