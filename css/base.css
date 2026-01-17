@@ -33,6 +33,7 @@ body {
 h2, h3 {
   background: linear-gradient(90deg, #c084fc, #8b5cf6, #c084fc);
   background-size: 200% auto;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShine 3s linear infinite;
@@ -62,17 +63,16 @@ html {
 }
 
 /* Responsive helpers (global) */
-@media (max-width: 1024px) {
     .logo { height: 75px; } nav ul { gap: 1rem; } 
-}
-@media (max-width: 568px) and (orientation: landscape) { 
+
+
     .hero { height: auto; min-height: 100vh; padding: 100px 0; } 
-}
-@media (max-width: 480px) { 
+
+
     .hero h2 { font-size: 1.5rem; } 
     .logo { height: 60px; } 
     .content { padding: 1rem; } 
-}
+
 
 /* Utility helpers */
 .container { 

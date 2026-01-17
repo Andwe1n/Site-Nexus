@@ -150,7 +150,7 @@ header.hidden {
 }
 
 
-@media (max-width: 768px) { 
+
   header { 
     flex-direction: column; padding:1rem; 
   } 
@@ -172,32 +172,32 @@ header.hidden {
   .materii {
     grid-template-columns: 1fr;
   }
-}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
 /* Tablete */
-@media (max-width: 1024px) {
+
   .logo {
     height: 75px;
   }
   nav ul {
     gap: 1rem;
   }
-}
+
 
 /* Mobile landscape */
-@media (max-width: 568px) and (orientation: landscape) {
+
   .hero {
     height: auto;
     min-height: 100vh;
     padding: 100px 0;
   }
-}
+
 
 /* Mobile mic */
-@media (max-width: 480px) {
+
   .hero h2 {
     font-size: 1.5rem;
   }
@@ -207,4 +207,4 @@ html {
   .content {
     padding: 1rem;
   }
-}
+
