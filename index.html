@@ -44,28 +44,35 @@
 <div class="menu-overlay" id="menuOverlay"></div>
 
 <header>
+  <!-- 1. Logo -->
   <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
 
-  <!-- ADAUGĂ HAMBURGER BUTTON -->
+  <!-- 2. Switch (vizibil pe mobile în header) -->
+  <label class="switch">
+    <input type="checkbox" class="input__check" id="themeToggle" />
+    <span class="slider"></span>
+  </label>
+
+  <!-- 3. Hamburger -->
   <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
     <span></span>
     <span></span>
     <span></span>
   </button>
 
+  <!-- 4. Nav (hidden pe mobile, slide-in când active) -->
   <nav id="navMenu">
-    <!-- Theme switch rămâne în header -->
-    <label class="switch">
-      <input type="checkbox" class="input__check" />
-      <span class="slider"></span>
-    </label>
-    
     <ul>
       <li><a href="#acasa">Acasă</a></li>
-      <!-- restul linkurilor... -->
+      <li><a href="#despre">Despre noi</a></li>
+      <li><a href="#proiecte">Proiecte</a></li>
+      <li><a href="#materii">Materii</a></li>
+      <li><a href="#echipa">Echipă</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </header>
+
   <header>
     <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
 
