@@ -10,3 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initCounters();
 });
+
+import { initUI, initMobileMenu } from './ui.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initUI();
+  initMobileMenu(); // ADAUGĂ ASTA
+  initMembers();
+  initParticles();
+  initCounters();
+});
