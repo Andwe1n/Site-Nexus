@@ -1,0 +1,381 @@
+/* mobile-performance-fix.css - FIX PENTRU FLICKERING ȘI PERFORMANCE */
+
+/* ============================================
+   PARTEA 1: FIX FLICKERING ANDROID
+   Cauza: Gradient animation + backdrop-filter
+   ============================================ */
+
+/* Dezactivează animația gradient pe mobile */
+@media (max-width: 768px) {
+    body {
+        /* OPRIT animația gradientShift */
+        animation: none !important;
+        /* Gradient static, fără animație */
+        background: linear-gradient(135deg, #0b0e27 0%, #1a1f3b 50%, #2b005c 100%) !important;
+        background-attachment: fixed !important;
+    }
+
+    body.light {
+        animation: none !important;
+        background: linear-gradient(135deg, #e4e4ff 0%, #fafafa 100%) !important;
+        background-attachment: fixed !important;
+    }
+}
+
+/* ============================================
+   PARTEA 2: OPTIMIZARE HEADER MOBILE
+   Reducere blur pentru performance
+   ============================================ */
+
+@media (max-width: 768px) {
+    header {
+        /* Reducere drastică blur - cauza principală a lag-ului */
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
+        /* SAU elimină complet blur-ul pe mobile: */
+        /* backdrop-filter: none !important; */
+        /* background: rgba(0, 0, 0, 0.85) !important; */
+    }
+
+    /* GPU acceleration pentru elemente fixe */
+    header,
+    nav,
+    .menu-overlay {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        will-change: transform;
+    }
+}
+
+/* ============================================
+   PARTEA 3: OPTIMIZARE PARTICULE
+   Cauza majoră de flickering
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* OPREȘTE COMPLET particulele pe mobile */
+    .particle {
+        display: none !important;
+    }
+
+    /* SAU doar reduci numărul dramatic */
+    /* Păstrează doar 5 particule în loc de 30 */
+    .particle:nth-child(n+6) {
+        display: none !important;
+    }
+
+    /* Particule rămase - animații mai simple */
+    .particle {
+        animation-duration: 10s !important;
+        animation-timing-function: linear !important;
+        filter: none !important;
+        /* Elimină blur de pe particule */
+    }
+}
+
+/* ============================================
+   PARTEA 4: OPTIMIZARE SCROLL
+   Previne jank pe scroll
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Smooth scrolling optimizat */
+    html {
+        scroll-behavior: auto !important;
+        /* Smooth scroll cauzează lag */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body {
+        /* Previne repainting excesiv */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Optimizare scroll pentru secțiuni */
+    .hero,
+    .content {
+        /* Hardware acceleration */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+}
+
+/* ============================================
+   PARTEA 5: OPTIMIZARE ANIMAȚII
+   Reduce toate animațiile pe mobile
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Oprește animația de shine pe heading-uri */
+    h2,
+    h3 {
+        animation: none !important;
+        background: linear-gradient(90deg, #c084fc, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Simplificare transitions */
+    * {
+        transition-duration: 0.15s !important;
+        /* Reduce de la 0.3s la 0.15s */
+    }
+
+    /* Elimină transitions pe scroll */
+    .reveal {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* Logo background - static pe mobile */
+    .logo-bg {
+        animation: none !important;
+        transform: translate(-50%, -50%) !important;
+    }
+}
+
+/* ============================================
+   PARTEA 6: OPTIMIZARE IMAGINI
+   ============================================ */
+
+@media (max-width: 768px) {
+    img {
+        /* Hardware acceleration pentru imagini */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        /* Îmbunătățire rendering */
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
+    .logo {
+        /* Oprește animațiile pe logo */
+        transition: none !important;
+        filter: none !important;
+    }
+
+    .logo:hover,
+    .logo:active {
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
+/* ============================================
+   PARTEA 7: OPTIMIZARE BIRD ANIMATION
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Oprește animația bird complet pe mobile */
+    .loader svg {
+        animation: none !important;
+    }
+
+    .head,
+    .bod,
+    .legr,
+    .legl,
+    #gnd {
+        animation: none !important;
+    }
+
+    /* SAU scalează mai mic și simplifică */
+    .loader {
+        scale: 0.4 !important;
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   PARTEA 8: OPTIMIZARE HOVER EFFECTS
+   Elimină pe touch devices
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+
+    /* Elimină toate hover effects pe mobile */
+    .materie-card:hover,
+    .membru:hover,
+    .stat-box:hover,
+    .partener-link:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Active states simple în loc de hover */
+    .materie-card:active {
+        opacity: 0.8;
+    }
+
+    .membru:active {
+        opacity: 0.9;
+    }
+}
+
+/* ============================================
+   PARTEA 9: REDUCE MOTION (Accessibility)
+   Pentru users cu motion sensitivity
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .particle {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   PARTEA 10: FIX PENTRU ANDROID CHROME
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Fix pentru Android Chrome scroll jank */
+    body {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Previne flickering la scroll */
+    .content,
+    .hero {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        perspective: 1000px;
+        -webkit-perspective: 1000px;
+    }
+
+    /* Optimizare rendering pentru text */
+    p,
+    h2,
+    h3,
+    a {
+        text-rendering: optimizeSpeed;
+    }
+}
+
+/* ============================================
+   PARTEA 11: OPTIMIZARE MEMORIE
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Reduce shadow complexity */
+    .content,
+    .materie-card,
+    .membru,
+    .stat-box {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Simplifică border-radius pentru mai puține repaint-uri */
+    * {
+        border-radius: 8px !important;
+    }
+
+    .content {
+        border-radius: 12px !important;
+    }
+}
+
+/* ============================================
+   PARTEA 12: FIX 60FPS CONSTANT
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Force GPU acceleration pe elementele principale */
+    header,
+    .hero,
+    .content,
+    nav,
+    .menu-overlay {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    /* Containment pentru izolare rendering */
+    .content {
+        contain: layout style paint;
+    }
+
+    .materii,
+    .team,
+    .stats-container {
+        contain: layout;
+    }
+}
+
+/* ============================================
+   PARTEA 13: DEBUGGING - ACTIVEAZĂ DACĂ TESTEZI
+   ============================================ */
+
+/* Decomentează pentru a vedea repaint-urile */
+/*
+@media (max-width: 768px) {
+  * {
+    outline: 1px solid rgba(255, 0, 0, 0.3) !important;
+  }
+}
+*/
+
+/* ============================================
+   PARTEA 14: SAFE AREAS iOS (bonus fix)
+   ============================================ */
+
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        header {
+            padding-left: max(1rem, env(safe-area-inset-left));
+            padding-right: max(1rem, env(safe-area-inset-right));
+            padding-top: max(0.75rem, env(safe-area-inset-top));
+        }
+
+        .content {
+            padding-left: max(1.25rem, env(safe-area-inset-left));
+            padding-right: max(1.25rem, env(safe-area-inset-right));
+        }
+    }
+}
+
+/* ============================================
+   PARTEA 15: FINAL OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Reduce repaints pe scroll */
+    img,
+    svg {
+        pointer-events: none;
+    }
+
+    /* Re-enable doar pentru interactive elements */
+    a img,
+    button,
+    .materie-card,
+    .membru {
+        pointer-events: auto;
+    }
+
+    /* Font rendering optimization */
+    body {
+        text-rendering: optimizeSpeed;
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}

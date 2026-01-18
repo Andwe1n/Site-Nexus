@@ -33,7 +33,6 @@ body {
 h2, h3 {
   background: linear-gradient(90deg, #c084fc, #8b5cf6, #c084fc);
   background-size: 200% auto;
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShine 3s linear infinite;
@@ -61,18 +60,6 @@ html {
     scroll-behavior: smooth; 
     scroll-padding-top: 100px; 
 }
-
-/* Responsive helpers (global) */
-    .logo { height: 75px; } nav ul { gap: 1rem; } 
-
-
-    .hero { height: auto; min-height: 100vh; padding: 100px 0; } 
-
-
-    .hero h2 { font-size: 1.5rem; } 
-    .logo { height: 60px; } 
-    .content { padding: 1rem; } 
-
 
 /* Utility helpers */
 .container { 

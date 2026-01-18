@@ -4,11 +4,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=corner" />
-  
+
   <title>Clubul de Științe Nexus</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!--FAVICON ICON-->
+  <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+  <link rel="manifest" href="favicon_io/site.webmanifest">
+  <meta name="theme-color" content="#2b005c">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -17,6 +26,7 @@
   <link rel="stylesheet" href="css/pages.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/mobile-performance-fix.css" />
 </head>
 
 <body>
@@ -28,37 +38,47 @@
   </div>
 
   <div id="progress-bar"></div>
- 
-  <header>
-    <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" />
 
-  <!-- ADAUGĂ overlay pentru menu -->
-  <div class="menu-overlay" id="menuOverlay"></div>
+    <!-- Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- Theme switch -->
+<header>
+  
+  <!-- LEFT: Logo -->
+  <div class="header-left">
+    <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo" onclick="window.location.href='index.html#acasa'" />
+  </div>
+
+  <!-- CENTER: Navigation -->
+  <div class="header-center">
+    <nav id="navMenu">
+      <ul>
+        <li><a href="index.html#acasa">Acasă</a></li>
+        <li><a href="index.html#despre">Despre</a></li>
+        <li><a href="index.html#materii">Materii</a></li>
+        <li><a href="index.html#echipa">Echipă</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- RIGHT: Actions (Theme + Hamburger) -->
+  <div class="header-right">
+    <!-- Theme Toggle -->
     <label class="switch">
-      <input type="checkbox" class="input__check" />
+      <input type="checkbox" class="input__check" id="themeToggle" />
       <span class="slider"></span>
     </label>
 
-    <!-- ADAUGĂ butonul hamburger -->
+    <!-- Hamburger (visible doar pe mobile) -->
     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
       <span></span>
       <span></span>
       <span></span>
     </button>
+  </div>
 
-    <nav id="navMenu">
-      <ul>
-        <li><a href="#acasa">Acasă</a></li>
-        <li><a href="#despre">Despre noi</a></li>
-        <li><a href="#proiecte">Proiecte</a></li>
-        <li><a href="#materii">Materii</a></li>
-        <li><a href="#echipa">Echipă</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+</header>
 
   <section id="acasa" class="hero">
     <img src="nexus logo atom (1).png" alt="Logo Nexus" class="logo-bg" />
@@ -72,7 +92,7 @@
   <section id="despre" class="content reveal">
     <h2>Despre noi</h2>
     <p>
-           Echipa s-a format în anul 2025, din inițiativa comună a unor elevi
+      Echipa s-a format în anul 2025, din inițiativa comună a unor elevi
       pasionați de știință, care au identificat nevoia unui spațiu dedicat
       experimentului și învățării aplicate. Membrii au colaborat anterior în
       proiecte precum echipa de robotică a liceului și diverse activități de
@@ -84,8 +104,8 @@
       Aceste calități, alături de experiența practică acumulată, îi recomandă
       drept o echipă dedicată și responsabilă, capabilă să ducă la bun sfârșit
       un proiect finanțat prin Fondul Științescu.
-           Fondul Științescu Prahova - ediția 2025 este implementat în județul Prahova de Fundația Comunitară Prahova, 
-      în parteneriat cu Romanian-American Foundation și Federația Fundațiile Comunitare din România, 
+      Fondul Științescu Prahova - ediția 2025 este implementat în județul Prahova de Fundația Comunitară Prahova,
+      în parteneriat cu Romanian-American Foundation și Federația Fundațiile Comunitare din România,
       finanțat la nivel local de Colen Impex.
     </p>
   </section>
@@ -439,9 +459,7 @@
       </div>
     </div>
 
-
     <!-- 🔹 MARKETING -->
-    <!-- 🔹 Marketing -->
     <h3>Marketing</h3>
     <div class="team">
       <div class="membru">
@@ -522,6 +540,7 @@
       </div>
     </div>
   </section>
+
   <section id="statistics" class="content reveal">
     <h2>Realizările noastre</h2>
     <div class="stats-container">
@@ -540,72 +559,83 @@
     </div>
 
     <section id="contact" class="content reveal">
-    <div class="contact">
-      <div class="contact-badge">Suntem aici pentru tine</div>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fa-solid fa-envelope"></i>
+      <div class="contact">
+        <div class="contact-badge">Suntem aici pentru tine</div>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div>
+              <h3>Scrie-ne pe email</h3>
+              <p>
+                Pentru idei, întrebări sau parteneriate educaționale, scrie-ne
+                oricând.
+              </p>
+              <a class="contact-link" href="mailto:nexusscience4@gmail.com">
+                <span>nexusscience4@gmail.com</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
           </div>
-          <div>
-            <h3>Scrie-ne pe email</h3>
-            <p>
-              Pentru idei, întrebări sau parteneriate educaționale, scrie-ne
-              oricând.
-            </p>
-            <a class="contact-link" href="mailto:nexusscience4@gmail.com">
-              <span>nexusscience4@gmail.com</span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fa-brands fa-instagram"></i>
-          </div>
-          <div>
-            <h3>Urmărește-ne pe Instagram</h3>
-            <p>
-              Aruncă o privire la experimentele și evenimentele noastre în
-              timp real.
-            </p>
-            <a class="contact-link" href="https://www.instagram.com/nexus.cnng?igsh=MWU5cGZqMHg2MWtoYw=="
-              target="_blank">
-              <span>@nexus.cnng</span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div>
+              <h3>Urmărește-ne pe Instagram</h3>
+              <p>
+                Aruncă o privire la experimentele și evenimentele noastre în
+                timp real.
+              </p>
+              <a class="contact-link" href="https://www.instagram.com/nexus.cnng?igsh=MWU5cGZqMHg2MWtoYw=="
+                target="_blank">
+                <span>@nexus.cnng</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="spacer"></div>
-  </section>
+      <div class="spacer"></div>
+    </section>
 
+    <section id="parteneri" class="content reveal">
+      <h2>Partenerii noștri</h2>
+      <p>
+        Mulțumim partenerilor noștri pentru sprijinul acordat în promovarea
+        științei:
+      </p>
 
-  <section id="parteneri" class="content reveal">
-  <h2>Partenerii noștri</h2>
-  <p>
-    Mulțumim partenerilor noștri pentru sprijinul acordat în promovarea
-    științei:
-  </p>
-  <div class="parteneri-logos">
-    <a href="https://www.instagram.com/fundatiacomunitaraprahova?igsh=MWhlbXhsdHhueXltaA==" target="_blank" class="partener-link">
-      <img src="Stiintescu logo.png" alt="Fondul Științescu - Fundația Comunitară Prahova" />
+      <div class="parteneri-logos">
+
+        <!-- Partener 1: Fondul Științescu -->
+        <a href="https://www.instagram.com/fundatiacomunitaraprahova?igsh=MWhlbXhsdHhueXltaA==" target="_blank"
+          class="partener-link" rel="noopener noreferrer">
+          <img src="Stiintescu logo.png" alt="Fondul Științescu - Fundația Comunitară Prahova" />
+        </a>
+
+        <!-- Partener 2: Raibak SRL -->
+        <a href="https://raibak.ro/produse.php" target="_blank" class="partener-link" rel="noopener noreferrer">
+          <img src="raibak logo.png" alt="Raibak SRL" />
+        </a>
+
+        <!-- Partener 3: APCNNG -->
+        <a href="https://www.facebook.com/APCNNG/?locale=ro_RO" target="_blank" class="partener-link"
+          rel="noopener noreferrer">
+          <img src="APCNNG.jpg" alt="APCNNG - Asociația de Părinți CNNG" />
+        </a>
+
+      </div>
+    </section>
+    <button id="scrollTopBtn" title="Înapoi sus">↑</button>
+
+    <script src="script.js"></script>
     </a>
-  </div>
-</section>
-
-  <button id="scrollTopBtn" title="Înapoi sus">↑</button>
-
-  <script src="script.js"></script>
-  </a>
-  <!-- main app module (ES modules) -->
-  <script type="module" src="js/main.js"></script>
+    <!-- main app module (ES modules) -->
+    <script type="module" src="js/main.js"></script>
 </body>
-
-</html>
 <script src="particles.js"></script>
-
-</body>
 
 </html>
