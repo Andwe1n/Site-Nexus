@@ -12,13 +12,13 @@
         animation: none !important;
         /* Gradient static, fără animație */
         background: linear-gradient(135deg, #0b0e27 0%, #1a1f3b 50%, #2b005c 100%) !important;
-        background-attachment: fixed !important;
+        /* NOTE: avoid `background-attachment: fixed` on mobile (often buggy on iOS) */
     }
 
     body.light {
         animation: none !important;
         background: linear-gradient(135deg, #e4e4ff 0%, #fafafa 100%) !important;
-        background-attachment: fixed !important;
+        /* NOTE: avoid `background-attachment: fixed` on mobile (often buggy on iOS) */
     }
 }
 
@@ -187,9 +187,17 @@
 
     /* SAU scalează mai mic și simplifică */
     .loader {
-        scale: 0.4 !important;
+        transform: translateY(-10px) scale(0.4) !important;
+        transform-origin: center;
         opacity: 0.8;
     }
+
+    /* Fallback for browsers without individual transform properties (scale/translate) */
+    .head { transform: translate(27px, -30px) !important; }
+    .bod { transform: translate(0px, 30px) !important; }
+    .legr { transform: translate(75px, 135px) !important; }
+    .legl { transform: translate(30px, 155px) !important; }
+    #gnd { transform: translate(-140px, 0px) rotate(10deg) !important; }
 }
 
 /* ============================================
@@ -283,11 +291,6 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
     }
 
-    /* Simplifică border-radius pentru mai puține repaint-uri */
-    * {
-        border-radius: 8px !important;
-    }
-
     .content {
         border-radius: 12px !important;
     }
@@ -358,20 +361,6 @@
    ============================================ */
 
 @media (max-width: 768px) {
-
-    /* Reduce repaints pe scroll */
-    img,
-    svg {
-        pointer-events: none;
-    }
-
-    /* Re-enable doar pentru interactive elements */
-    a img,
-    button,
-    .materie-card,
-    .membru {
-        pointer-events: auto;
-    }
 
     /* Font rendering optimization */
     body {

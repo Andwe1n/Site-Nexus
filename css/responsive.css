@@ -18,8 +18,11 @@
     }
 
     .header-center {
-        display: none !important;
-        /* Hide navigation on mobile */
+        /* Keep container so the fixed `nav` can slide in on mobile */
+        display: block !important;
+        width: 0 !important;
+        flex: 0 0 auto !important;
+        overflow: visible !important;
     }
 
     .header-right {
@@ -154,6 +157,11 @@ nav ul {
         overflow-x: hidden !important;
         max-width: 100vw;
         position: relative;
+    }
+
+    /* Mobile header is shorter than desktop */
+    html {
+        scroll-padding-top: 80px !important;
     }
 
     * {
@@ -440,8 +448,8 @@ nav ul {
 
     /* === PROJECTS BIRD === */
     .loader {
-        scale: 0.5 !important;
-        translate: 0 -10px !important;
+        transform: translateY(-10px) scale(0.5) !important;
+        transform-origin: center;
     }
 
     .coming-soon {

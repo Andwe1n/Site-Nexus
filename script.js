@@ -2,22 +2,134 @@
    GENERAL FUNCTIONS / UI
    ========================== */
 
+function prefersReducedMotion() {
+  return (
+    !!window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+function isMobileViewport() {
+  if (window.matchMedia) return window.matchMedia("(max-width: 768px)").matches;
+  return window.innerWidth <= 768;
+}
+
+function isTouchDevice() {
+  if (window.matchMedia)
+    return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  return "ontouchstart" in window;
+}
+
+function safeClosest(el, selector) {
+  while (el && el.nodeType === 1) {
+    const matches =
+      el.matches ||
+      el.msMatchesSelector ||
+      el.webkitMatchesSelector ||
+      el.mozMatchesSelector;
+    if (matches && matches.call(el, selector)) return el;
+    el = el.parentElement;
+  }
+  return null;
+}
+
 /* Scroll lin la secțiune */
 function scrollToSection(id) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
+  if (!el) return;
+  const behavior =
+    prefersReducedMotion() || isMobileViewport() ? "auto" : "smooth";
+  try {
+    el.scrollIntoView({ behavior, block: "start" });
+  } catch (e) {
+    // Older browsers: fallback without options
+    el.scrollIntoView(true);
+  }
 }
 
 /* Scroll to top button */
 const scrollBtn = document.getElementById("scrollTopBtn");
 window.addEventListener("scroll", () => {
+  if (!scrollBtn) return;
   if (window.scrollY > 300) scrollBtn.style.display = "block";
   else scrollBtn.style.display = "none";
 });
 if (scrollBtn)
   scrollBtn.addEventListener("click", () =>
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() || isMobileViewport() ? "auto" : "smooth",
+    })
   );
+
+/* ==========================
+   MOBILE MENU (hamburger + overlay)
+   ========================== */
+(function initMobileMenu() {
+  const hamburger = document.getElementById("hamburgerBtn");
+  const nav = document.getElementById("navMenu");
+  const overlay = document.getElementById("menuOverlay");
+  if (!hamburger || !nav) return;
+
+  let lockedScrollY = 0;
+
+  function openMenu() {
+    hamburger.classList.add("active");
+    nav.classList.add("active");
+    if (overlay) overlay.classList.add("active");
+    document.body.classList.add("menu-open");
+
+    // iOS/touch-friendly background scroll lock
+    lockedScrollY = window.scrollY || window.pageYOffset || 0;
+    if (isTouchDevice()) {
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove("active");
+    nav.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
+    document.body.classList.remove("menu-open");
+
+    if (document.body.style.position === "fixed") {
+      const top = parseInt(document.body.style.top || "0", 10) || 0;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, -top);
+    } else {
+      document.body.style.overflow = "";
+    }
+  }
+
+  function toggleMenu() {
+    if (nav.classList.contains("active")) closeMenu();
+    else openMenu();
+  }
+
+  hamburger.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  if (overlay) overlay.addEventListener("click", closeMenu);
+
+  const navLinks = nav.querySelectorAll("a");
+  for (let i = 0; i < navLinks.length; i++) {
+    navLinks[i].addEventListener("click", closeMenu);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const isEsc = e.key === "Escape" || e.keyCode === 27;
+    if (isEsc && nav.classList.contains("active")) closeMenu();
+  });
+})();
 
 /* ==========================
     LOGO BACKGROUND PARALLAX
@@ -28,18 +140,19 @@ let targetX = 0,
   targetY = 0,
   currentX = 0,
   currentY = 0;
-document.addEventListener("mousemove", (e) => {
-  targetX = (e.clientX / window.innerWidth - 0.5) * 100;
-  targetY = (e.clientY / window.innerHeight - 0.5) * 100;
-});
-function animate() {
-  currentX += (targetX - currentX) * 0.08;
-  currentY += (targetY - currentY) * 0.08;
-  if (logoBg)
+if (logoBg && !isTouchDevice() && !prefersReducedMotion()) {
+  document.addEventListener("mousemove", (e) => {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 100;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 100;
+  });
+  function animate() {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
     logoBg.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
+  }
+  animate();
 }
-animate();
 
 // --- POP-UP MEMBRU ---
 const membri = document.querySelectorAll(".membru");
@@ -49,18 +162,43 @@ const popupRol = document.getElementById("popup-rol");
 const popupDescriere = document.getElementById("popup-descriere");
 const closeBtn = document.querySelector(".close");
 
-membri.forEach((m) => {
-  m.addEventListener("click", () => {
-    popupNume.textContent = m.dataset.nume;
-    popupRol.textContent = m.dataset.rol;
-    popupDescriere.textContent = m.dataset.descriere;
-    popup.classList.add("active");
+const enableTouchPopups = isTouchDevice();
+
+for (let i = 0; i < membri.length; i++) {
+  const m = membri[i];
+  m.addEventListener("click", (e) => {
+    // If modal popup exists, use it; otherwise use touch-friendly inline popup
+    if (popup && popupNume && popupRol && popupDescriere) {
+      popupNume.textContent = m.dataset.nume || "";
+      popupRol.textContent = m.dataset.rol || "";
+      popupDescriere.textContent = m.dataset.descriere || "";
+      popup.classList.add("active");
+      return;
+    }
+
+    if (!enableTouchPopups) return;
+    // Don't toggle if user tapped inside the popup itself
+    if (safeClosest(e.target, ".hover-popup")) return;
+
+    const wasOpen = m.classList.contains("show-popup");
+    const openPopups = document.querySelectorAll(".membru.show-popup");
+    for (let j = 0; j < openPopups.length; j++) {
+      openPopups[j].classList.remove("show-popup");
+    }
+    if (!wasOpen) m.classList.add("show-popup");
   });
-});
+}
 
 
 window.addEventListener("click", (e) => {
-  if (e.target === popup) popup.classList.remove("active");
+  if (popup && e.target === popup) popup.classList.remove("active");
+
+  if (enableTouchPopups && !safeClosest(e.target, ".membru")) {
+    const openPopups = document.querySelectorAll(".membru.show-popup");
+    for (let j = 0; j < openPopups.length; j++) {
+      openPopups[j].classList.remove("show-popup");
+    }
+  }
 });
 
 /* ==========================
@@ -79,10 +217,10 @@ if ("IntersectionObserver" in window) {
     },
     { threshold: 0.12 }
   );
-  reveals.forEach((el) => observer.observe(el));
+  for (let i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
 } else {
   // fallback: make elements visible
-  reveals.forEach((el) => el.classList.add("visible"));
+  for (let i = 0; i < reveals.length; i++) reveals[i].classList.add("visible");
 }
 
 /* ==========================
@@ -178,7 +316,7 @@ if (declineBtn)
    ========================== */
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    if (popup) popup.style.display = "none";
+    if (popup) popup.classList.remove("active");
     if (cookiePopup) cookiePopup.style.display = "none";
     if (loginContainer) loginContainer.style.display = "none";
   }
@@ -189,31 +327,38 @@ document.addEventListener("keydown", (e) => {
 let lastScroll = 0;
 const header = document.querySelector("header");
 
-window.addEventListener("scroll", () => {
-  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+// On mobile/touch, keep header stable for usability
+if (header && !isMobileViewport() && !isTouchDevice()) {
+  window.addEventListener("scroll", () => {
+    const currentScroll =
+      window.pageYOffset || document.documentElement.scrollTop;
 
-  if (currentScroll > lastScroll && currentScroll > 100) {
-    // Scroll în jos → ascunde headerul
-    header.classList.add("hidden");
-  } else {
-    // Scroll în sus → afișează headerul
-    header.classList.remove("hidden");
-  }
+    if (currentScroll > lastScroll && currentScroll > 100) {
+      // Scroll în jos → ascunde headerul
+      header.classList.add("hidden");
+    } else {
+      // Scroll în sus → afișează headerul
+      header.classList.remove("hidden");
+    }
 
-  lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-});
+    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+  });
+}
 
 window.addEventListener('scroll', () => {
   const winScroll = document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const scrolled = (winScroll / height) * 100;
-  document.getElementById('progress-bar').style.width = scrolled + '%';
+  const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+  const bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = scrolled + '%';
 });
 
 // Particule animate simple
 function createParticles() {
   const hero = document.querySelector('.hero');
-  for(let i = 0; i < 30; i++) {
+  if (!hero) return;
+  if (isMobileViewport() || isTouchDevice() || prefersReducedMotion()) return;
+  for(let i = 0; i < 18; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
@@ -245,21 +390,26 @@ const animateCounter = (counter) => {
   updateCount();
 };
 
-// Trigger când secțiunea devine vizibilă
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      counters.forEach(counter => animateCounter(counter));
-      statsObserver.unobserve(entry.target);
-    }
-  });
-});
-
+// Trigger când secțiunea devine vizibilă (cu fallback)
 const statsSection = document.getElementById('statistics');
-if (statsSection) statsObserver.observe(statsSection);
+if (statsSection && ("IntersectionObserver" in window)) {
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        for (let i = 0; i < counters.length; i++) animateCounter(counters[i]);
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  });
+  statsObserver.observe(statsSection);
+} else if (statsSection) {
+  // fallback: animate immediately
+  for (let i = 0; i < counters.length; i++) animateCounter(counters[i]);
+}
 
 window.addEventListener('load', () => {
   const loader = document.getElementById('page-loader');
+  if (!loader) return;
   setTimeout(() => {
     loader.classList.add('hidden');
   }, 1000);
@@ -350,22 +500,25 @@ function createParticle(container) {
 
 // Pornește particulele când pagina se încarcă
 window.addEventListener('load', () => {
+  if (isMobileViewport() || isTouchDevice() || prefersReducedMotion()) return;
   createFullSiteParticles();
 });
 
 // OPTIONAL: Adaugă particule la hover pe secțiuni importante
 const sections = document.querySelectorAll('.content, .hero');
-sections.forEach(section => {
-  section.addEventListener('mouseenter', () => {
-    // Burst de particule la hover
-    const container = document.getElementById('particle-container');
-    if (container) {
-      for(let i = 0; i < 5; i++) {
-        setTimeout(() => createParticle(container), i * 100);
+if (!isTouchDevice()) {
+  for (let i = 0; i < sections.length; i++) {
+    sections[i].addEventListener('mouseenter', () => {
+      // Burst de particule la hover
+      const container = document.getElementById('particle-container');
+      if (container) {
+        for(let i = 0; i < 5; i++) {
+          setTimeout(() => createParticle(container), i * 100);
+        }
       }
-    }
-  });
-});
+    });
+  }
+}
 
 // CSS pentru animații - ADAUGĂ ASTA ÎN style.css
 const style = document.createElement('style');
