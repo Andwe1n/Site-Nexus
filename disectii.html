@@ -2,9 +2,20 @@
 <html lang="ro">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Disecții - Clubul de Științe Nexus</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materie - Clubul de Științe Nexus</title>
+
+  <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+  <link rel="manifest" href="favicon_io/site.webmanifest">
+  <meta name="theme-color" content="#2b005c">
+
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -14,55 +25,270 @@
   <link rel="stylesheet" href="css/pages.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="stylesheet" href="css/mobile-performance-fix.css" />
+  <link rel="stylesheet" href="css/mobile-responsive.css" />
+
+  <style>
+    /* === STYLES PENTRU SECȚIUNEA PDF === */
+
+    .presentations-section {
+      margin-top: 3rem;
+    }
+
+    .pdf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .pdf-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(192, 132, 252, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.light .pdf-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(147, 51, 234, 0.3);
+    }
+
+    .pdf-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #c084fc, #8b5cf6);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .pdf-card:hover {
+      transform: translateY(-5px);
+      border-color: #c084fc;
+      box-shadow: 0 10px 30px rgba(192, 132, 252, 0.3);
+    }
+
+    .pdf-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .pdf-icon-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .pdf-icon {
+      font-size: 3rem;
+      color: #c084fc;
+      flex-shrink: 0;
+    }
+
+    .pdf-info {
+      flex: 1;
+    }
+
+    .pdf-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f8f4ff;
+      margin-bottom: 0.5rem;
+    }
+
+    body.light .pdf-title {
+      color: #1a0f2d;
+    }
+
+    .pdf-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: #d4b3ff;
+    }
+
+    body.light .pdf-meta {
+      color: #5a3d7a;
+    }
+
+    .pdf-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .pdf-meta-item i {
+      font-size: 0.9rem;
+      color: #c084fc;
+    }
+
+    .pdf-description {
+      color: #e8d7ff;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+    }
+
+    body.light .pdf-description {
+      color: #4a3060;
+    }
+
+    .pdf-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .pdf-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .pdf-btn-primary {
+      background: linear-gradient(90deg, #c084fc, #8b5cf6);
+      color: white;
+      box-shadow: 0 4px 15px rgba(192, 132, 252, 0.3);
+    }
+
+    .pdf-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(192, 132, 252, 0.5);
+    }
+
+    .pdf-btn-secondary {
+      background: rgba(192, 132, 252, 0.1);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+    }
+
+    .pdf-btn-secondary:hover {
+      background: rgba(192, 132, 252, 0.2);
+      border-color: #c084fc;
+    }
+
+    /* Badge pentru PDF nou */
+    .pdf-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      color: white;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+    }
+
+    /* Empty state - când nu sunt PDF-uri */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #d4b3ff;
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: rgba(192, 132, 252, 0.3);
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #c084fc;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .pdf-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .pdf-card {
+        padding: 1.25rem;
+      }
+
+      .pdf-icon {
+        font-size: 2.5rem;
+      }
+
+      .pdf-actions {
+        flex-direction: column;
+      }
+
+      .pdf-btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div id="progress-bar"></div>
 
   <!-- Menu Overlay -->
   <div class="menu-overlay" id="menuOverlay"></div>
 
-  <!-- ✅ HEADER PROFESSIONAL - 3 SECȚIUNI -->
+  <!-- Header -->
   <header>
-
-    <!-- LEFT: Logo -->
     <div class="header-left">
       <img src="logo nexus(scris).png" alt="Logo Nexus" class="logo"
         onclick="window.location.href='index.html#acasa'" />
     </div>
-
-    <!-- CENTER: Navigation -->
     <div class="header-center">
       <nav id="navMenu">
         <ul>
           <li><a href="index.html#acasa">Acasă</a></li>
-          <li><a href="index.html#despre">Despre</a></li>
+          <li><a href="index.html#despre">Despre noi</a></li>
+          <li><a href="index.html#proiecte">Proiecte</a></li>
           <li><a href="index.html#materii">Materii</a></li>
           <li><a href="index.html#echipa">Echipă</a></li>
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </nav>
     </div>
-
-    <!-- RIGHT: Actions (Theme + Hamburger) -->
     <div class="header-right">
-      <!-- Theme Toggle -->
       <label class="switch">
-        <input type="checkbox" class="input__check" id="themeToggle" />
+        <input type="checkbox" class="input__check" />
         <span class="slider"></span>
       </label>
-
-      <!-- Hamburger (visible doar pe mobile) -->
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
-
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <img src="nexus logo atom (1).png" alt="Logo Nexus" class="logo-bg" />
     <div class="hero-content">
@@ -71,14 +297,15 @@
     </div>
   </section>
 
+  <!-- Despre Materie -->
   <section class="content reveal">
     <h2>Despre Disecții</h2>
     <p>
-      <!-- Adaugă aici descrierea cursului de disecții -->
-      Conținut în curând...
+      În cadrul cursului de disecții, veți învăța tehnici de observare și analiză a structurilor organismelor vii.
     </p>
   </section>
 
+  <!-- Ce vei învăța -->
   <section class="content reveal">
     <h2>Ce vei învăța</h2>
     <div class="materii">
@@ -100,17 +327,138 @@
     </div>
   </section>
 
-  <section class="content reveal">
-    <h2>Mentori</h2>
-    <p><!-- Adaugă aici informații despre mentorii de la disecții --></p>
+  <!-- ✅ SECȚIUNEA PREZENTĂRI PDF -->
+  <section class="content reveal presentations-section">
+    <h2>📚 Materiale de studiu</h2>
+    <p>Descarcă prezentările cursului în format PDF pentru a studia offline.</p>
+    <div class="pdf-card"
+      onclick="window.open('Prezentari/Prezentari MICROSCOPIE/Introducere in microscopie si celula.pdf', '_blank')">
+      <span class="pdf-badge">Nou</span>
+      <div class="pdf-icon-wrapper">
+        <i class="fas fa-file-pdf pdf-icon"></i>
+        <div class="pdf-info">
+          <h3 class="pdf-title">Introducere în microscopie și celulă</h3>
+          <div class="pdf-meta">
+            <span class="pdf-meta-item">
+              <i class="fas fa-file"></i>
+              2.4 MB
+            </span>
+            <span class="pdf-meta-item">
+              <i class="fas fa-file-lines"></i>
+              33 slide-uri
+            </span>
+            <span class="pdf-meta-item">
+              <i class="fas fa-calendar"></i>
+              Dec 2025
+            </span>
+          </div>
+        </div>
+      </div>
+      <p class="pdf-description">
+        Reacția în care un atom sau o grupă de atomi dintr-o moleculă este înlocuită cu un alt atom sau o altă grupă de
+        atomi.
+      </p>
+      <div class="pdf-actions">
+        <a href="Prezentari/Prezentari MICROSCOPIE/Introducere in microscopie si celula.pdf"
+          class="pdf-btn pdf-btn-primary" target="_blank" onclick="event.stopPropagation()">
+          <i class="fas fa-eye"></i>
+          Vizualizează
+        </a>
+        <a href="Prezentari/Prezentari MICROSCOPIE/Introducere in microscopie si celula.pdf"
+          class="pdf-btn pdf-btn-secondary" download onclick="event.stopPropagation()">
+          <i class="fas fa-download"></i>
+          Descarcă
+        </a>
+      </div>
+    </div>
+
   </section>
 
+  <!-- Mentori -->
+  <section class="content reveal">
+    <h2>Mentori</h2>
+    <p>Cursurile de microscopie sunt predate de mentori pasionați și experimentați.</p>
+    <div class="team">
+      <div class="membru">
+        <strong>Marina Andrei Robert</strong><br />Președinte
+        <div class="hover-popup">
+          <img src="POZE Membrii Nexus/Poza Marina.jpg" alt="Marina Andrei Robert" />
+          <h3>Marina Andrei Robert</h3>
+          <h4>Președinte</h4>
+          <p>
+            "Ambiția este focul care arde limitele și mă împinge să fac orice îmi propun.
+            Un singur dușman am - somnul, dar să fiu sincer, nu știu dacă îmi circulă sânge sau cafea roșie prin vene.
+            Ador să fac lumea din jurul meu să se simtă bine și vreu să împărtășesc secretele științei într-un mod
+            amuzant și, de ce nu, mai nebunesc."
+          </p>
+        </div>
+      </div>
+      <div class="membru">
+        <strong>Bunescu Andreea Elena</strong><br />Mentor Biologie
+        <div class="hover-popup">
+          <img src="POZE Membrii Nexus/Poza Andreea.jpg" alt="Bunescu Andreea Elena" />
+          <h3>Bunescu Andreea Elena</h3>
+          <h4>Mentor Biologie</h4>
+          <p>
+            "Sunt o persoană sociabilă și dornică să împărtășesc cunoștințele
+            mele cu cei din jur. Hai să explorăm împreună tainele biologiei
+            prin experimente interesante și să transformăm curiozitatea și
+            pasiunea în cunoaștere."
+          </p>
+        </div>
+      </div>
+      <div class="membru">
+        <strong>Șerbu Paula Adriana</strong><br />Mentor Biologie
+        <div class="hover-popup">
+          <img src="POZE Membrii Nexus/Poza Serbu Paula.jpg" alt="Șerbu Paula Adriana" />
+          <h3>Șerbu Paula Adriana</h3>
+          <h4>Mentor Biologie</h4>
+          <p>
+            "Sunt o persoană calmă, creativă, implicată și dornică de a face o
+            schimbare. Am participat anul trecut la olimpiade și concursuri de
+            biologie și chimie și abia aștept să descoperim mai multe
+            împreuna."
+          </p>
+        </div>
+      </div>
+      <div class="membru">
+        <strong>Stroie Ana</strong><br />Mentor Biologie
+        <div class="hover-popup">
+          <img src="POZE Membrii Nexus/Poza Ana Stroie.jpg" alt="Stroie Ana" />
+          <h3>Stroie Ana</h3>
+          <h4>Mentor Biologie</h4>
+          <p>
+            "Sunt pasionată de biologie de când mă știu
+            și abia aștept să descoperim cât mai multe împreuna!!
+            Mă consider o persoană implicată și sunt sigură că vom colabora ușor!"
+          </p>
+        </div>
+      </div>
+      <div class="membru">
+        <strong>Pleșa Melek Maria</strong><br />Mentor Chimie
+        <div class="hover-popup">
+          <img src="POZE Membrii Nexus/Poza Melek.jpg" alt="Pleșa Melek Maria" />
+          <h3>Pleșa Melek Maria</h3>
+          <h4>Mentor Chimie</h4>
+          <p>
+            "Eu sunt Melek si predau chimie în cadrul clubului Nexus. Îmi
+            place să descopăr legăturile dintre diferite ramuri ale științei
+            și să arăt cum experimentele pot transforma curiozitatea în
+            înțelegere.""
+          </p>
+        </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
     <p>© 2025 Clubul de Științe Nexus | Creat cu pasiune pentru știință 🧪</p>
   </footer>
 
+  <!-- Scroll to Top -->
   <button id="scrollTopBtn" title="Înapoi sus">↑</button>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>

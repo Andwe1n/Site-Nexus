@@ -4,21 +4,21 @@
 * { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  font-family: var(--font-sans);
   background-image: linear-gradient(
     40deg,
-    hsl(269deg 92% 41%) 0%,
-    hsl(259deg 90% 49%) 14%,
-    hsl(250deg 88% 57%) 29%,
-    hsl(246deg 78% 44%) 45%,
-    hsl(245deg 64% 21%) 63%,
-    hsl(250deg 56% 6%) 79%,
-    hsl(269deg 67% 10%) 92%,
-    hsl(288deg 76% 13%) 100%
+    hsl(269deg 85% 20%) 0%,
+    hsl(259deg 80% 25%) 14%,
+    hsl(250deg 75% 28%) 29%,
+    hsl(246deg 70% 22%) 45%,
+    hsl(245deg 60% 12%) 63%,
+    hsl(250deg 50% 3%) 79%,
+    hsl(269deg 60% 5%) 92%,
+    hsl(288deg 70% 6%) 100%
   );
   background-size: 200% 200%;
   animation: gradientShift 12s ease infinite;
+  margin: 0;
+  font-family: var(--font-sans);
   color: var(--dark-text);
   transition: background 0.4s, color 0.4s;
 }

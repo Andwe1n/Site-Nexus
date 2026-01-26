@@ -55,8 +55,16 @@
 @media (max-width: 768px) {
 
     /* OPREȘTE COMPLET particulele pe mobile */
+    .particle {
+        display: none !important;
+    }
+
     /* SAU doar reduci numărul dramatic */
     /* Păstrează doar 5 particule în loc de 30 */
+    .particle:nth-child(n+6) {
+        display: none !important;
+    }
+
     /* Particule rămase - animații mai simple */
     .particle {
         animation-duration: 10s !important;
@@ -158,6 +166,31 @@
     }
 }
 
+/* ============================================
+   PARTEA 7: OPTIMIZARE BIRD ANIMATION
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Oprește animația bird complet pe mobile */
+    .loader svg {
+        animation: none !important;
+    }
+
+    .head,
+    .bod,
+    .legr,
+    .legl,
+    #gnd {
+        animation: none !important;
+    }
+
+    /* SAU scalează mai mic și simplifică */
+    .loader {
+        scale: 0.4 !important;
+        opacity: 0.8;
+    }
+}
 
 /* ============================================
    PARTEA 8: OPTIMIZARE HOVER EFFECTS
@@ -167,7 +200,14 @@
 @media (hover: none) and (pointer: coarse) {
 
     /* Elimină toate hover effects pe mobile */
-   
+    .materie-card:hover,
+    .membru:hover,
+    .stat-box:hover,
+    .partener-link:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
     /* Active states simple în loc de hover */
     .materie-card:active {
         opacity: 0.8;
@@ -326,9 +366,28 @@
     }
 
     /* Re-enable doar pentru interactive elements */
+    a img,
+    button,
+    .materie-card,
+    .membru {
+        pointer-events: auto;
+    }
+
     /* Font rendering optimization */
     body {
         text-rendering: optimizeSpeed;
         -webkit-font-smoothing: subpixel-antialiased;
     }
 }
+
+/* ============================================
+   QUICK FIX SUMMARY:
+   
+   ✅ Flickering STOP: gradient animation OFF
+   ✅ Performance: blur reduction, GPU acceleration
+   ✅ Particule: TOATE OFF sau doar 5 max
+   ✅ Animații: simplified/removed
+   ✅ Hover: disabled pe touch
+   ✅ Scroll: smooth OFF, hardware accelerated
+   ✅ Memory: reduced shadows, simpler borders
+   ============================================ */
