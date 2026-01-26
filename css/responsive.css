@@ -67,12 +67,14 @@
     z-index: 1400;
     display: none;
     /* Ascuns pe desktop */
+    pointer-events: none;
 }
 
 .menu-overlay.active {
     opacity: 1;
     visibility: visible;
     display: block;
+    pointer-events: auto;
 }
 
 /* Hamburger ascuns pe desktop */
@@ -240,6 +242,7 @@ nav ul {
         -webkit-overflow-scrolling: touch !important;
         /* Smooth scroll on iOS */
         box-sizing: border-box;
+        touch-action: pan-y;
     }
 
     body.light nav {
@@ -394,7 +397,7 @@ nav ul {
         /* Fixed instead of absolute for better mobile */
         top: 50% !important;
         left: 50% !important;
-        transform: translate(-50%, -50%) !important;
+        transform: translate(-50%, -50%) scale(0.96) !important;
         width: 90% !important;
         max-width: 280px !important;
         padding: 1.25rem !important;
@@ -402,12 +405,36 @@ nav ul {
         z-index: 3000 !important;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        /* Force a visible panel background on mobile */
+        background: rgba(20, 0, 40, 0.92) !important;
+        border: 1px solid rgba(200, 150, 255, 0.35) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6) !important;
     }
 
     .membru.show-popup .hover-popup {
         opacity: 1 !important;
         pointer-events: auto !important;
+        transform: translate(-50%, -50%) scale(1) !important;
+    }
+
+    /* Dim background behind member popup (JS toggles .active) */
+    .member-popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        z-index: 2500;
+        pointer-events: none;
+    }
+
+    .member-popup-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
     }
 
     .hover-popup img {

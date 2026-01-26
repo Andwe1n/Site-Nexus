@@ -5,21 +5,28 @@
    Cauza: Gradient animation + backdrop-filter
    ============================================ */
 
-/* Dezactivează animația gradient pe mobile */
+/* Balanced approach:
+   - Keep animated gradient for most phones
+   - Disable only on low-end devices or users who prefer reduced motion */
 @media (max-width: 768px) {
     body {
-        /* OPRIT animația gradientShift */
-        animation: none !important;
-        /* Gradient static, fără animație */
-        background: linear-gradient(135deg, #0b0e27 0%, #1a1f3b 50%, #2b005c 100%) !important;
-        /* NOTE: avoid `background-attachment: fixed` on mobile (often buggy on iOS) */
+        /* smoother/cheaper animation on mobile */
+        animation-duration: 20s !important;
+        background-size: 160% 160% !important;
     }
+}
 
-    body.light {
-        animation: none !important;
-        background: linear-gradient(135deg, #e4e4ff 0%, #fafafa 100%) !important;
-        /* NOTE: avoid `background-attachment: fixed` on mobile (often buggy on iOS) */
-    }
+/* Low-end devices (class is set by `script.js`) */
+html.low-end body {
+    animation: none !important;
+}
+
+html.low-end body:not(.light) {
+    background: linear-gradient(135deg, #0b0e27 0%, #1a1f3b 50%, #2b005c 100%) !important;
+}
+
+html.low-end body.light {
+    background: linear-gradient(135deg, #e4e4ff 0%, #fafafa 100%) !important;
 }
 
 /* ============================================
@@ -37,14 +44,14 @@
         /* background: rgba(0, 0, 0, 0.85) !important; */
     }
 
-    /* GPU acceleration pentru elemente fixe */
-    header,
-    nav,
-    .menu-overlay {
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-        will-change: transform;
-    }
+    /* Avoid forcing GPU on everything (can cause text blurriness on some phones) */
+}
+
+/* Even lighter header on low-end devices */
+html.low-end header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.85) !important;
 }
 
 /* ============================================
@@ -53,25 +60,23 @@
    ============================================ */
 
 @media (max-width: 768px) {
-
-    /* OPREȘTE COMPLET particulele pe mobile */
+    /* Balanced particles: keep a few, remove expensive effects */
     .particle {
-        display: none !important;
-    }
-
-    /* SAU doar reduci numărul dramatic */
-    /* Păstrează doar 5 particule în loc de 30 */
-    .particle:nth-child(n+6) {
-        display: none !important;
-    }
-
-    /* Particule rămase - animații mai simple */
-    .particle {
-        animation-duration: 10s !important;
+        animation-duration: 12s !important;
         animation-timing-function: linear !important;
         filter: none !important;
         /* Elimină blur de pe particule */
     }
+
+    /* Limit count on mobile */
+    .particle:nth-child(n+8) {
+        display: none !important;
+    }
+}
+
+/* Low-end: no particles at all */
+html.low-end .particle {
+    display: none !important;
 }
 
 /* ============================================
@@ -94,13 +99,7 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Optimizare scroll pentru secțiuni */
-    .hero,
-    .content {
-        /* Hardware acceleration */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-    }
+    /* Keep scroll stable; avoid forcing transforms on large containers */
 }
 
 /* ============================================
@@ -110,32 +109,17 @@
 
 @media (max-width: 768px) {
 
-    /* Oprește animația de shine pe heading-uri */
+    /* Keep heading shine but make it slower on mobile */
     h2,
     h3 {
-        animation: none !important;
-        background: linear-gradient(90deg, #c084fc, #8b5cf6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        animation-duration: 6s !important;
     }
 
-    /* Simplificare transitions */
-    * {
-        transition-duration: 0.15s !important;
-        /* Reduce de la 0.3s la 0.15s */
-    }
-
-    /* Elimină transitions pe scroll */
+    /* Keep reveal animations (they are transform/opacity and generally safe),
+       but reduce distance so they feel smoother */
     .reveal {
-        transition: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-    }
-
-    /* Logo background - static pe mobile */
-    .logo-bg {
-        animation: none !important;
-        transform: translate(-50%, -50%) !important;
+        transform: translateY(24px) !important;
+        transition: opacity 0.55s ease, transform 0.55s ease !important;
     }
 }
 
@@ -145,24 +129,19 @@
 
 @media (max-width: 768px) {
     img {
-        /* Hardware acceleration pentru imagini */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-        /* Îmbunătățire rendering */
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
+        /* Avoid forcing GPU / crisp edges on photos (often looks worse on mobile) */
+        max-width: 100%;
+        height: auto;
     }
 
     .logo {
         /* Oprește animațiile pe logo */
-        transition: none !important;
-        filter: none !important;
+        transition: transform 0.2s ease, filter 0.2s ease !important;
     }
 
     .logo:hover,
     .logo:active {
-        transform: none !important;
-        filter: none !important;
+        transform: scale(1.02) !important;
     }
 }
 
@@ -172,32 +151,32 @@
 
 @media (max-width: 768px) {
 
-    /* Oprește animația bird complet pe mobile */
-    .loader svg {
-        animation: none !important;
-    }
-
-    .head,
-    .bod,
-    .legr,
-    .legl,
-    #gnd {
-        animation: none !important;
-    }
-
-    /* SAU scalează mai mic și simplifică */
+    /* Keep the bird on mobile, just make it lighter/smaller */
     .loader {
-        transform: translateY(-10px) scale(0.4) !important;
+        transform: translateY(-10px) scale(0.55) !important;
         transform-origin: center;
         opacity: 0.8;
     }
+    
+    /* Reduce visual cost */
+    #gnd {
+        filter: none !important;
+        opacity: 0.18 !important;
+        animation-duration: 7s !important;
+    }
+    .head, .bod, .legr, .legl {
+        animation-duration: 1.25s !important;
+    }
+}
 
-    /* Fallback for browsers without individual transform properties (scale/translate) */
-    .head { transform: translate(27px, -30px) !important; }
-    .bod { transform: translate(0px, 30px) !important; }
-    .legr { transform: translate(75px, 135px) !important; }
-    .legl { transform: translate(30px, 155px) !important; }
-    #gnd { transform: translate(-140px, 0px) rotate(10deg) !important; }
+/* Low-end devices: keep bird static */
+html.low-end .loader svg,
+html.low-end .head,
+html.low-end .bod,
+html.low-end .legr,
+html.low-end .legl,
+html.low-end #gnd {
+    animation: none !important;
 }
 
 /* ============================================

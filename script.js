@@ -20,6 +20,35 @@ function isTouchDevice() {
   return "ontouchstart" in window;
 }
 
+function isLowEndDevice() {
+  // Heuristic: slow connection OR low RAM OR low core count
+  const connection =
+    navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const effectiveType = connection && connection.effectiveType;
+  const slowConnection =
+    effectiveType === "slow-2g" || effectiveType === "2g" || effectiveType === "3g";
+
+  const lowMemory =
+    typeof navigator.deviceMemory === "number" && navigator.deviceMemory > 0
+      ? navigator.deviceMemory < 4
+      : false;
+
+  const lowCores =
+    typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency > 0
+      ? navigator.hardwareConcurrency < 4
+      : false;
+
+  return !!(slowConnection || lowMemory || lowCores);
+}
+
+// Add capability classes for CSS tuning
+(function applyDeviceClasses() {
+  const root = document.documentElement;
+  if (isMobileViewport()) root.classList.add("is-mobile");
+  if (isTouchDevice()) root.classList.add("is-touch");
+  if (isLowEndDevice()) root.classList.add("low-end");
+})();
+
 function safeClosest(el, selector) {
   while (el && el.nodeType === 1) {
     const matches =
@@ -164,6 +193,27 @@ const closeBtn = document.querySelector(".close");
 
 const enableTouchPopups = isTouchDevice();
 
+// Mobile member popup overlay (prevents "floating text" feeling)
+let memberOverlay = document.getElementById("memberPopupOverlay");
+if (!memberOverlay) {
+  memberOverlay = document.createElement("div");
+  memberOverlay.id = "memberPopupOverlay";
+  memberOverlay.className = "member-popup-overlay";
+  document.body.appendChild(memberOverlay);
+}
+
+function closeMemberPopups() {
+  const openPopups = document.querySelectorAll(".membru.show-popup");
+  for (let j = 0; j < openPopups.length; j++) {
+    openPopups[j].classList.remove("show-popup");
+  }
+  if (memberOverlay) memberOverlay.classList.remove("active");
+}
+
+if (memberOverlay) {
+  memberOverlay.addEventListener("click", closeMemberPopups);
+}
+
 for (let i = 0; i < membri.length; i++) {
   const m = membri[i];
   m.addEventListener("click", (e) => {
@@ -181,11 +231,11 @@ for (let i = 0; i < membri.length; i++) {
     if (safeClosest(e.target, ".hover-popup")) return;
 
     const wasOpen = m.classList.contains("show-popup");
-    const openPopups = document.querySelectorAll(".membru.show-popup");
-    for (let j = 0; j < openPopups.length; j++) {
-      openPopups[j].classList.remove("show-popup");
+    closeMemberPopups();
+    if (!wasOpen) {
+      m.classList.add("show-popup");
+      if (memberOverlay) memberOverlay.classList.add("active");
     }
-    if (!wasOpen) m.classList.add("show-popup");
   });
 }
 
@@ -194,10 +244,7 @@ window.addEventListener("click", (e) => {
   if (popup && e.target === popup) popup.classList.remove("active");
 
   if (enableTouchPopups && !safeClosest(e.target, ".membru")) {
-    const openPopups = document.querySelectorAll(".membru.show-popup");
-    for (let j = 0; j < openPopups.length; j++) {
-      openPopups[j].classList.remove("show-popup");
-    }
+    closeMemberPopups();
   }
 });
 
@@ -357,13 +404,20 @@ window.addEventListener('scroll', () => {
 function createParticles() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
-  if (isMobileViewport() || isTouchDevice() || prefersReducedMotion()) return;
-  for(let i = 0; i < 18; i++) {
+  if (prefersReducedMotion()) return;
+
+  // Balanced: small amount on mobile (unless low-end), more on desktop
+  const lowEnd = document.documentElement.classList.contains("low-end");
+  const mobile = isMobileViewport() || isTouchDevice();
+  if (mobile && lowEnd) return;
+
+  const count = mobile ? 7 : 18;
+  for(let i = 0; i < count; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
     particle.style.animationDelay = Math.random() * 5 + 's';
-    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+    particle.style.animationDuration = (Math.random() * 4 + (mobile ? 6 : 3)) + 's';
     hero.appendChild(particle);
   }
 }
@@ -500,7 +554,11 @@ function createParticle(container) {
 
 // Pornește particulele când pagina se încarcă
 window.addEventListener('load', () => {
-  if (isMobileViewport() || isTouchDevice() || prefersReducedMotion()) return;
+  const lowEnd = document.documentElement.classList.contains("low-end");
+  const mobile = isMobileViewport() || isTouchDevice();
+  if (prefersReducedMotion() || (mobile && lowEnd)) return;
+  // Keep full-site particles desktop-only (they're the biggest jank source)
+  if (mobile) return;
   createFullSiteParticles();
 });
 

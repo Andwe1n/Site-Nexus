@@ -217,7 +217,7 @@ box-shadow: 0 8px 32px rgba(170,100,255,0.6),
 }
 .stat-label { 
   font-size:1.1rem; 
-  color: --dark-text; 
+  color: var(--dark-text); 
 }
 
 /* Progress bar & loader */
@@ -233,11 +233,12 @@ box-shadow: 0 8px 32px rgba(170,100,255,0.6),
 }
 /*the walkig mf*/
 .loader { 
-  scale:0.75; 
   position:relative; 
   width:200px; 
   height:200px; 
-  translate:10px -20px; 
+  /* Use widely-supported transforms for mobile compatibility */
+  transform: translate(10px, -20px) scale(0.75);
+  transform-origin: center;
 }
 .loader svg { 
   position:absolute; 
@@ -246,29 +247,33 @@ box-shadow: 0 8px 32px rgba(170,100,255,0.6),
 }
 
 .head {
-  translate: 27px -30px;
+  left: 27px;
+  top: -30px;
   z-index: 3;
   animation: bob 1s infinite ease-in;
 }
 .bod {
-  translate: 0px 30px;
+  left: 0px;
+  top: 30px;
   z-index: 3;
   animation: bob 1s infinite ease-in-out;
 }
 .legr {
-  translate: 75px 135px;
+  left: 75px;
+  top: 135px;
   z-index: 0;
   animation: rstep 1s infinite ease-in;
   animation-delay: 0.45s;
 }
 .legl {
-  translate: 30px 155px;
+  left: 30px;
+  top: 155px;
   z-index: 3;
   animation: lstep 1s infinite ease-in;
 }
 #gnd {
-  translate: -140px 0;
-  rotate: 10deg;
+  left: -140px;
+  top: 0;
   z-index: -1;
   filter: blur(0.5px) drop-shadow(1px 3px 5px #000000);
   opacity: 0.25;
@@ -276,7 +281,7 @@ box-shadow: 0 8px 32px rgba(170,100,255,0.6),
 }
 @keyframes scroll {
   0% {
-    transform: translateY(25px) translate(50px);
+    transform: translateY(25px) translate(50px) rotate(10deg);
     opacity: 0;
   }
   33% {
@@ -286,7 +291,7 @@ box-shadow: 0 8px 32px rgba(170,100,255,0.6),
     opacity: 0.25;
   }
   100% {
-    transform: translateY(-50px) translate(-100px);
+    transform: translateY(-50px) translate(-100px) rotate(10deg);
     opacity: 0;
   }
 }
