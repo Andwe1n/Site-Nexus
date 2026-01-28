@@ -3,101 +3,113 @@
    ============================================ */
 @media (max-width: 768px) {
 
-    /* Dacă ai switch duplicat în nav, ascunde-l */
-    nav .switch {
-        display: none !important;
+    /* === HEADER LAYOUT: MENU (L) - LOGO (C) - THEME (R) === */
+    header {
+        height: 70px;
+        padding: 0 1.25rem;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.4) !important;
+        backdrop-filter: blur(15px);
     }
 
-    /* Păstrează doar switch-ul din header */
-    header>.switch {
-        display: inline-block !important;
+    /* 1. LEFT: HAMBURGER TRIGGER */
+    .mobile-menu-trigger {
+        display: flex !important;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        z-index: 2000;
+        /* Ensure above everything */
     }
 
-    /* Hamburger goes FIRST (left side) */
-    .hamburger {
-        order: 0;
-    }
-
-    .header-left {
-        order: 1;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .header-center {
-        /* Keep container so the fixed `nav` can slide in on mobile */
-        display: block !important;
-        width: 0 !important;
-        flex: 0 0 auto !important;
-        overflow: visible !important;
-    }
-
-    .header-right {
-        order: 2;
-        gap: 0.75rem;
-    }
-
-    /* Show hamburger on mobile */
+    /* Modern Hamburger Button */
     .hamburger {
         display: flex !important;
         flex-direction: column;
-        justify-content: space-around;
-        width: 30px;
-        height: 25px;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
         background: transparent;
         border: none;
         cursor: pointer;
         padding: 0;
-        z-index: 2000;
+        gap: 6px;
+        position: relative;
     }
 
-    /* Show menu overlay */
-    .menu-overlay {
-        display: block !important;
+    /* Hamburger Lines (Modern Gap Style) */
+    .hamburger span {
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        border-radius: 4px;
+        transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        position: relative;
+        transform-origin: center;
     }
-}
 
-/* ============================================
-   FIX 2: OVERLAY & HAMBURGER
-   ============================================ */
+    /* Animation State */
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
 
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1400;
-    display: none;
-    /* Ascuns pe desktop */
-    pointer-events: none;
-}
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
 
-.menu-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    display: block;
-    pointer-events: auto;
-}
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
 
-/* Hamburger ascuns pe desktop */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 2000;
-    position: relative;
-    flex-shrink: 0;
+    /* Light Mode Hamburger */
+    body.light .hamburger span {
+        background: #1a1a2e;
+    }
+
+    /* 2. CENTER: LOGO */
+    .header-left {
+        flex: 1;
+        /* Takes up remaining space to center logo */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        /* Reset margins */
+        order: 0;
+    }
+
+    .logo {
+        height: 42px !important;
+        /* Slightly smaller for mobile balancing */
+        width: auto;
+    }
+
+    /* 3. RIGHT: THEME TOGGLE */
+    .header-right {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        width: 40px;
+    }
+
+    /* Ensure switch is visible and correctly sized */
+    header>.switch,
+    .header-right .switch {
+        display: inline-block !important;
+        transform: scale(0.85);
+        /* Slight scale down for mobile */
+        margin: 0;
+    }
+
+    /* 4. HIDDEN NAV CONTAINER */
+    .header-center {
+        display: none !important;
+    }
+
     /* Previne shrink */
 }
 
@@ -178,52 +190,18 @@ nav ul {
     }
 
     /* === HEADER FIXES === */
+    /* Handled by new layout at top of file */
     header {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center;
-        padding: 0.75rem 1rem !important;
-        gap: 0.75rem;
         box-sizing: border-box;
-        height: auto;
-        min-height: 60px;
         z-index: 1000;
+        /* ensure compatibility */
     }
 
-    /* Logo */
-    .logo {
-        height: 50px !important;
-        width: auto !important;
-        order: 1;
-        z-index: 2000;
-        flex-shrink: 0;
-    }
-
-    /* Switch toggle */
-    .switch {
-        order: 2;
-        z-index: 2000;
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        flex-shrink: 0;
-        font-size: 14px !important;
-        width: 3em !important;
-        height: 1.8em !important;
-    }
-
-    /* Hamburger visible */
-    .hamburger {
-        display: flex !important;
-        order: 3;
-        z-index: 2000;
-        flex-shrink: 0;
-    }
+    /* Switch and Hamburger styles REMOVED - handled by new layout */
 
     /* === NAVIGATION SLIDE-IN MENU (from LEFT) === */
     nav {

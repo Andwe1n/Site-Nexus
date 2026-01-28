@@ -149,16 +149,17 @@ nav a:hover::after {
     rgba(0, 0, 0, 0.09) 0px -1px 15px -8px;
 }
 
-.input__check:checked + .slider {
+.input__check:checked+.slider {
   background-color: #17202a;
 }
 
-.input__check:checked + .slider:before {
+.input__check:checked+.slider:before {
   transform: translateX(1.5em);
 }
 
 /* Hamburger - hidden on desktop */
-.hamburger {
+.hamburger,
+.mobile-menu-trigger {
   display: none;
 }
 

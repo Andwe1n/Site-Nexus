@@ -207,6 +207,7 @@ function closeMemberPopups() {
   for (let j = 0; j < openPopups.length; j++) {
     openPopups[j].classList.remove("show-popup");
   }
+  if (popup) popup.classList.remove("active");
   if (memberOverlay) memberOverlay.classList.remove("active");
 }
 
@@ -214,27 +215,36 @@ if (memberOverlay) {
   memberOverlay.addEventListener("click", closeMemberPopups);
 }
 
+const popupImg = document.getElementById("popup-img");
+
 for (let i = 0; i < membri.length; i++) {
   const m = membri[i];
   m.addEventListener("click", (e) => {
-    // If modal popup exists, use it; otherwise use touch-friendly inline popup
-    if (popup && popupNume && popupRol && popupDescriere) {
-      popupNume.textContent = m.dataset.nume || "";
-      popupRol.textContent = m.dataset.rol || "";
-      popupDescriere.textContent = m.dataset.descriere || "";
-      popup.classList.add("active");
-      return;
-    }
+    // Mobile/Touch Modal Logic
+    if (window.innerWidth <= 768 || isTouchDevice()) {
+      // Find data source within the clicked card
+      const source = m.querySelector(".hover-popup");
+      if (source && popup) {
+        // Extract data
+        const img = source.querySelector("img");
+        const h3 = source.querySelector("h3");
+        const h4 = source.querySelector("h4");
+        const p = source.querySelector("p");
 
-    if (!enableTouchPopups) return;
-    // Don't toggle if user tapped inside the popup itself
-    if (safeClosest(e.target, ".hover-popup")) return;
+        // Populate Modal
+        if (popupImg && img) popupImg.src = img.src;
+        if (popupNume && h3) popupNume.textContent = h3.textContent;
+        if (popupRol && h4) popupRol.textContent = h4.textContent;
+        if (popupDescriere && p) popupDescriere.textContent = p.textContent;
 
-    const wasOpen = m.classList.contains("show-popup");
-    closeMemberPopups();
-    if (!wasOpen) {
-      m.classList.add("show-popup");
-      if (memberOverlay) memberOverlay.classList.add("active");
+        // Show Modal & Overlay
+        popup.classList.add("active");
+        if (memberOverlay) memberOverlay.classList.add("active");
+
+        // Prevent default behavior
+        e.preventDefault();
+        return;
+      }
     }
   });
 }
@@ -412,7 +422,7 @@ function createParticles() {
   if (mobile && lowEnd) return;
 
   const count = mobile ? 7 : 18;
-  for(let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     particle.style.left = Math.random() * 100 + '%';
@@ -431,7 +441,7 @@ const speed = 200;
 const animateCounter = (counter) => {
   const target = +counter.getAttribute('data-target');
   const increment = target / speed;
-  
+
   const updateCount = () => {
     const count = +counter.innerText;
     if (count < target) {
@@ -488,18 +498,18 @@ function createFullSiteParticles() {
     z-index: 1;
     overflow: hidden;
   `;
-  
+
   // Adaugă containerul la începutul body-ului
   document.body.insertBefore(particleContainer, document.body.firstChild);
-  
+
   // Număr de particule (poți ajusta)
   const particleCount = 50;
-  
+
   // Creează particulele
-  for(let i = 0; i < particleCount; i++) {
+  for (let i = 0; i < particleCount; i++) {
     createParticle(particleContainer);
   }
-  
+
   // Adaugă particule noi continuu pentru efect perpetuu
   setInterval(() => {
     if (document.querySelectorAll('.particle').length < particleCount) {
@@ -512,25 +522,25 @@ function createFullSiteParticles() {
 function createParticle(container) {
   const particle = document.createElement('div');
   particle.className = 'particle';
-  
+
   // Poziție aleatoare pe orizontală
   const startX = Math.random() * 100;
-  
+
   // Mărime aleatoare
   const size = Math.random() * 4 + 2; // între 2px și 6px
-  
+
   // Durată aleatoare de animație
   const duration = Math.random() * 10 + 15; // între 15s și 25s
-  
+
   // Delay aleatoriu
   const delay = Math.random() * 5;
-  
+
   // Opacitate aleatoare
   const opacity = Math.random() * 0.5 + 0.3; // între 0.3 și 0.8
-  
+
   // Mișcare laterală aleatoare
   const drift = (Math.random() - 0.5) * 200; // -100px la +100px
-  
+
   particle.style.cssText = `
     position: absolute;
     left: ${startX}%;
@@ -543,9 +553,9 @@ function createParticle(container) {
     box-shadow: 0 0 ${size * 2}px rgba(192, 132, 252, 0.5);
     --drift: ${drift}px;
   `;
-  
+
   container.appendChild(particle);
-  
+
   // Șterge particula după ce termină animația pentru a nu supraîncărca DOM-ul
   setTimeout(() => {
     particle.remove();
@@ -577,7 +587,7 @@ window.addEventListener('load', () => {
     document.body.insertBefore(particleContainer, document.body.firstChild);
     // Fewer particles on mobile (15 instead of 50)
     const mobileParticleCount = 15;
-    for(let i = 0; i < mobileParticleCount; i++) {
+    for (let i = 0; i < mobileParticleCount; i++) {
       createParticle(particleContainer);
     }
     return;
@@ -593,7 +603,7 @@ if (!isTouchDevice()) {
       // Burst de particule la hover
       const container = document.getElementById('particle-container');
       if (container) {
-        for(let i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
           setTimeout(() => createParticle(container), i * 100);
         }
       }

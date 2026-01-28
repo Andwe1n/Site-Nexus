@@ -43,6 +43,14 @@
   <div class="menu-overlay" id="menuOverlay"></div>
 
   <header>
+    <!-- HAMBURGER (Mobile Left) - Wrapped in container for alignment -->
+    <div class="mobile-menu-trigger">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
 
     <!-- LEFT: Logo -->
     <div class="header-left">
@@ -63,20 +71,13 @@
       </nav>
     </div>
 
-    <!-- RIGHT: Actions (Theme + Hamburger) -->
+    <!-- RIGHT: Actions (Theme) -->
     <div class="header-right">
       <!-- Theme Toggle -->
       <label class="switch">
         <input type="checkbox" class="input__check" id="themeToggle" />
         <span class="slider"></span>
       </label>
-
-      <!-- Hamburger (visible doar pe mobile) -->
-      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
     </div>
 
   </header>
@@ -557,6 +558,15 @@
         <button id="decline-cookies" class="cookie-btn decline">Refuz</button>
       </div>
     </div>
+  </div>
+
+  <!-- Global Mobile Member Popup -->
+  <div id="popup" class="mobile-popup-modal">
+    <button class="mobile-popup-close close" onclick="closeMemberPopups()">✕</button>
+    <img id="popup-img" src="" alt="Member" />
+    <h3 id="popup-nume"></h3>
+    <h4 id="popup-rol"></h4>
+    <p id="popup-descriere"></p>
   </div>
 
   <footer>
