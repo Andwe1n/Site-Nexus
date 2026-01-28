@@ -568,10 +568,7 @@ nav ul {
         width: 150px !important;
     }
 
-    /* === PARTICLES - Reduce for performance === */
-    .particle:nth-child(n+16) {
-        display: none;
-    }
+    /* === PARTICLES - Performance handled by mobile-performance-fix.css === */
 }
 
 /* ============================================
@@ -637,9 +634,7 @@ nav ul {
         padding: 10px;
     }
 
-    .particle:nth-child(n+11) {
-        display: none;
-    }
+    /* Particles handled by mobile-performance-fix.css */
 }
 
 /* ============================================
@@ -782,21 +777,10 @@ nav ul {
 
 @media (max-width: 768px) {
 
-    /* Reduce animations */
-    .particle {
-        animation-duration: 8s !important;
-    }
-
-    /* Simplify gradients */
-    body {
-        background-size: 400% 400%;
-    }
-
-    /* Reduce blur for performance */
-    header {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
+    /* Performance optimizations moved to mobile-performance-fix.css for single source of truth */
+    /* - Particle animation duration
+       - Background size
+       - Header blur */
 
     /* GPU acceleration */
     .hamburger,

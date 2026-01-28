@@ -556,9 +556,32 @@ function createParticle(container) {
 window.addEventListener('load', () => {
   const lowEnd = document.documentElement.classList.contains("low-end");
   const mobile = isMobileViewport() || isTouchDevice();
-  if (prefersReducedMotion() || (mobile && lowEnd)) return;
-  // Keep full-site particles desktop-only (they're the biggest jank source)
-  if (mobile) return;
+  if (prefersReducedMotion()) return;
+  // Skip particles entirely on low-end mobile devices
+  if (mobile && lowEnd) return;
+  // On mobile: create fewer particles for performance
+  if (mobile) {
+    // Mobile gets a lighter version of full-site particles
+    const particleContainer = document.createElement('div');
+    particleContainer.id = 'particle-container';
+    particleContainer.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    `;
+    document.body.insertBefore(particleContainer, document.body.firstChild);
+    // Fewer particles on mobile (15 instead of 50)
+    const mobileParticleCount = 15;
+    for(let i = 0; i < mobileParticleCount; i++) {
+      createParticle(particleContainer);
+    }
+    return;
+  }
   createFullSiteParticles();
 });
 

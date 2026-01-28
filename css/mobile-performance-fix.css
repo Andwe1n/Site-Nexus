@@ -344,7 +344,7 @@ html.low-end #gnd {
     /* Font rendering optimization */
     body {
         text-rendering: optimizeSpeed;
-        -webkit-font-smoothing: subpixel-antialiased;
+        /* Use consistent antialiased from line 98 - subpixel can cause issues on mobile */
     }
 }
 
