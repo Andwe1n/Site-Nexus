@@ -13,8 +13,15 @@
         display: inline-block !important;
     }
 
+    /* Hamburger goes FIRST (left side) */
+    .hamburger {
+        order: 0;
+    }
+
     .header-left {
         order: 1;
+        flex: 1;
+        justify-content: center;
     }
 
     .header-center {
@@ -218,12 +225,12 @@ nav ul {
         flex-shrink: 0;
     }
 
-    /* === NAVIGATION SLIDE-IN MENU === */
+    /* === NAVIGATION SLIDE-IN MENU (from LEFT) === */
     nav {
         position: fixed !important;
         top: 0 !important;
-        right: -100% !important;
-        /* Hidden by default */
+        left: -100% !important;
+        /* Hidden to the LEFT by default */
         width: min(280px, 80vw) !important;
         /* Max 80% screen width */
         height: 100vh !important;
@@ -233,11 +240,10 @@ nav ul {
         backdrop-filter: blur(20px) !important;
         -webkit-backdrop-filter: blur(20px) !important;
         /* Safari support */
-        transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+        transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         z-index: 1500 !important;
         padding: 80px 0 20px 0 !important;
-        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5) !important;
-        order: 4;
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5) !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         /* Smooth scroll on iOS */
@@ -259,9 +265,9 @@ nav ul {
         color: var(--primary) !important;
     }
 
-    /* Active state - slide in */
+    /* Active state - slide in FROM LEFT */
     nav.active {
-        right: 0 !important;
+        left: 0 !important;
     }
 
     nav ul {
@@ -401,43 +407,41 @@ nav ul {
         box-sizing: border-box;
     }
 
-    /* === HOVER POPUP - Touch friendly === */
+    /* === MOBILE MEMBER POPUP - Completely redesigned === */
     .hover-popup {
-        position: fixed !important;
-        /* Fixed instead of absolute for better mobile */
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) scale(0.96) !important;
-        width: 90% !important;
-        max-width: 280px !important;
-        padding: 1.25rem !important;
-        font-size: 0.85rem;
-        z-index: 3000 !important;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease, transform 0.25s ease;
-        /* Force a visible panel background on mobile */
-        background: rgba(20, 0, 40, 0.92) !important;
-        border: 1px solid rgba(200, 150, 255, 0.35) !important;
-        border-radius: 14px !important;
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6) !important;
+        display: none !important;
+        /* Hide the hover popup completely on mobile */
     }
 
-    .membru.show-popup .hover-popup {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        transform: translate(-50%, -50%) scale(1) !important;
+    /* Create a new popup approach for mobile - show info inline */
+    .membru.show-popup {
+        position: relative;
     }
 
-    /* Dim background behind member popup (JS toggles .active) */
+    .membru.show-popup::after {
+        content: '✕ Tap to close';
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 100;
+    }
+
+    /* Mobile popup overlay for dimming */
     .member-popup-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(0, 0, 0, 0.7);
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease, visibility 0.2s ease;
-        z-index: 2500;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 2000;
         pointer-events: none;
     }
 
@@ -447,145 +451,227 @@ nav ul {
         pointer-events: auto;
     }
 
-    .hover-popup img {
-        width: 90px !important;
-        height: 90px !important;
+    /* Mobile Modal Popup - show centered */
+    .mobile-popup-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 320px;
+        max-height: 80vh;
+        overflow-y: auto;
+        background: linear-gradient(135deg, rgba(30, 10, 50, 0.98), rgba(60, 20, 100, 0.95));
+        border: 2px solid rgba(192, 132, 252, 0.5);
+        border-radius: 16px;
+        padding: 1.5rem;
+        z-index: 3000;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        color: #fff;
     }
 
-    .hover-popup h3 {
-        font-size: 1.1rem !important;
+    .mobile-popup-modal.active {
+        display: block;
     }
 
-    .hover-popup h4 {
-        font-size: 0.9rem !important;
+    .mobile-popup-modal img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid var(--primary);
+        object-fit: cover;
+        margin-bottom: 1rem;
     }
 
-    .hover-popup p {
-        font-size: 0.8rem !important;
-        line-height: 1.4;
-    }
-
-    /* === STATS === */
-    .stats-container {
-        grid-template-columns: 1fr !important;
-        gap: 1.25rem;
-    }
-
-    .stat-box {
-        padding: 1.25rem;
-    }
-
-    .stat-number {
-        font-size: 2.2rem !important;
-    }
-
-    .stat-label {
-        font-size: 0.95rem !important;
-    }
-
-    /* === PROJECTS BIRD === */
-    .loader {
-        transform: scale(0.6) !important;
-        transform-origin: center center;
-        margin: 0 auto;
-    }
-
-    .proiecte-content {
-        min-height: 200px;
-        overflow: visible;
-    }
-
-    .coming-soon {
-        font-size: 1.3rem !important;
-        letter-spacing: 2px;
-    }
-
-    /* === CONTACT === */
-    .contact-card {
-        padding: 1.5rem !important;
-        margin: 1.5rem auto !important;
-    }
-
-    .contact-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1.25rem;
-    }
-
-    .contact-item {
-        grid-template-columns: 56px 1fr;
-        padding: 1rem;
-    }
-
-    .contact-icon {
-        width: 56px !important;
-        height: 56px !important;
+    .mobile-popup-modal h3 {
+        color: #e8d7ff !important;
         font-size: 1.2rem;
+        margin: 0 0 0.25rem 0;
+        -webkit-text-fill-color: #e8d7ff;
     }
 
-    .contact-link {
-        font-size: 0.85rem;
-        padding: 0.6rem 0.9rem;
+    .mobile-popup-modal h4 {
+        color: #c9a8ff !important;
+        font-size: 0.95rem;
+        margin: 0 0 1rem 0;
+        font-weight: 500;
+        -webkit-text-fill-color: #c9a8ff;
     }
 
-    /* === PARTENERI === */
-    .parteneri-logos {
-        gap: 1.25rem;
+    .mobile-popup-modal p {
+        color: #ddd !important;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin: 0;
+        -webkit-text-fill-color: #ddd;
     }
 
-    .parteneri-logos img {
-        max-width: 180px;
-        padding: 12px;
-    }
-
-    /* === FOOTER === */
-    footer {
-        padding: 1.25rem 1rem;
-        font-size: 0.8rem;
-    }
-
-    /* === SCROLL TO TOP === */
-    #scrollTopBtn {
-        bottom: 15px;
-        right: 15px;
-        padding: 8px 14px;
+    .mobile-popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
         font-size: 1.2rem;
-        width: 44px;
-        height: 44px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* === PROGRESS BAR === */
-    #progress-bar {
-        height: 3px;
+    /* Light mode popup */
+    body.light .mobile-popup-modal {
+        background: linear-gradient(135deg, rgba(250, 248, 255, 0.98), rgba(240, 235, 255, 0.95));
+        border-color: rgba(139, 92, 246, 0.4);
     }
 
-    /* === COOKIE POPUP === */
-    .cookie-content {
-        width: 90% !important;
-        max-width: 340px !important;
-        padding: 1.25rem !important;
+    body.light .mobile-popup-modal h3 {
+        color: #2d1b4e !important;
+        -webkit-text-fill-color: #2d1b4e;
     }
 
-    .cookie-buttons {
-        flex-direction: column;
-        gap: 10px;
+    body.light .mobile-popup-modal h4 {
+        color: #5b3d8a !important;
+        -webkit-text-fill-color: #5b3d8a;
     }
 
-    .cookie-buttons button {
-        width: 100%;
-        padding: 12px;
+    body.light .mobile-popup-modal p {
+        color: #333 !important;
+        -webkit-text-fill-color: #333;
     }
 
-    /* === PAGE LOADER === */
-    #page-loader .loader-logo {
-        width: 100px !important;
+    body.light .mobile-popup-close {
+        background: rgba(0, 0, 0, 0.1);
+        color: #333;
     }
-
-    #page-loader .loader-bar {
-        width: 150px !important;
-    }
-
-    /* === PARTICLES - Performance handled by mobile-performance-fix.css === */
 }
+
+/* === STATS === */
+.stats-container {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+}
+
+.stat-box {
+    padding: 1.25rem;
+}
+
+.stat-number {
+    font-size: 2.2rem !important;
+}
+
+.stat-label {
+    font-size: 0.95rem !important;
+}
+
+/* === PROJECTS BIRD === */
+.loader {
+    transform: scale(0.6) !important;
+    transform-origin: center center;
+    margin: 0 auto;
+}
+
+.proiecte-content {
+    min-height: 200px;
+    overflow: visible;
+}
+
+.coming-soon {
+    font-size: 1.3rem !important;
+    letter-spacing: 2px;
+}
+
+/* === CONTACT === */
+.contact-card {
+    padding: 1.5rem !important;
+    margin: 1.5rem auto !important;
+}
+
+.contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+}
+
+.contact-item {
+    grid-template-columns: 56px 1fr;
+    padding: 1rem;
+}
+
+.contact-icon {
+    width: 56px !important;
+    height: 56px !important;
+    font-size: 1.2rem;
+}
+
+.contact-link {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+}
+
+/* === PARTENERI === */
+.parteneri-logos {
+    gap: 1.25rem;
+}
+
+.parteneri-logos img {
+    max-width: 180px;
+    padding: 12px;
+}
+
+/* === FOOTER === */
+footer {
+    padding: 1.25rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* === SCROLL TO TOP === */
+#scrollTopBtn {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 14px;
+    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
+}
+
+/* === PROGRESS BAR === */
+#progress-bar {
+    height: 3px;
+}
+
+/* === COOKIE POPUP === */
+.cookie-content {
+    width: 90% !important;
+    max-width: 340px !important;
+    padding: 1.25rem !important;
+}
+
+.cookie-buttons {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cookie-buttons button {
+    width: 100%;
+    padding: 12px;
+}
+
+/* === PAGE LOADER === */
+#page-loader .loader-logo {
+    width: 100px !important;
+}
+
+#page-loader .loader-bar {
+    width: 150px !important;
+}
+
+/* === PARTICLES - Performance handled by mobile-performance-fix.css === */
 
 /* ============================================
    FIX 5: SMALL PHONES (max-width: 480px)
