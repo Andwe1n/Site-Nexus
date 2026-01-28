@@ -60,6 +60,7 @@ html.low-end header {
    ============================================ */
 
 @media (max-width: 768px) {
+
     /* Balanced particles: keep a few, remove expensive effects */
     .particle {
         animation-duration: 12s !important;
@@ -153,18 +154,22 @@ html.low-end .particle {
 
     /* Keep the bird on mobile, just make it lighter/smaller */
     .loader {
-        transform: translateY(-10px) scale(0.55) !important;
-        transform-origin: center;
-        opacity: 0.8;
+        transform: scale(0.6) !important;
+        transform-origin: center center;
+        opacity: 0.9;
     }
-    
+
     /* Reduce visual cost */
     #gnd {
         filter: none !important;
         opacity: 0.18 !important;
         animation-duration: 7s !important;
     }
-    .head, .bod, .legr, .legl {
+
+    .head,
+    .bod,
+    .legr,
+    .legl {
         animation-duration: 1.25s !important;
     }
 }

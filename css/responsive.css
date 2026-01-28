@@ -246,7 +246,17 @@ nav ul {
     }
 
     body.light nav {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 240, 255, 0.95)) !important;
+        background: linear-gradient(135deg, rgba(245, 240, 255, 0.98), rgba(230, 225, 250, 0.95)) !important;
+    }
+
+    /* Fix light mode nav text color - must be dark on light background */
+    body.light nav a {
+        color: #1a1a2e !important;
+    }
+
+    body.light nav a:hover,
+    body.light nav a:active {
+        color: var(--primary) !important;
     }
 
     /* Active state - slide in */
@@ -271,7 +281,7 @@ nav ul {
     }
 
     body.light nav li {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 1px solid rgba(100, 50, 150, 0.2) !important;
     }
 
     nav li:last-child {
@@ -475,8 +485,14 @@ nav ul {
 
     /* === PROJECTS BIRD === */
     .loader {
-        transform: translateY(-10px) scale(0.5) !important;
-        transform-origin: center;
+        transform: scale(0.6) !important;
+        transform-origin: center center;
+        margin: 0 auto;
+    }
+
+    .proiecte-content {
+        min-height: 200px;
+        overflow: visible;
     }
 
     .coming-soon {
@@ -697,10 +713,8 @@ nav ul {
         -webkit-tap-highlight-color: rgba(192, 132, 252, 0.2);
     }
 
-    /* Remove hover effects, use tap only */
-    .membru:hover .hover-popup {
-        opacity: 0 !important;
-    }
+    /* On touch devices, popups are shown via JS tap (show-popup class) */
+    /* Do NOT block the tap-based popup display */
 }
 
 /* ============================================
